@@ -1,9 +1,17 @@
----
 - hosts: localhost
-  gather_facts: true
-  
-  # group_vars/all.yml は自動的に読み込まれます
+  connection: local
 
   roles:
-    - homebrew    # まずアプリを入れる
-    # - dotfiles    # 設定ファイルを配置する
+    # 1. Common Base (Directory setup, etc.)
+    - common
+    - zsh
+
+    # 2. Individual Roles (Refactored components)
+    - fzf
+    - nvim
+    - wezterm
+
+    # 3. Legacy Roles (For tools not yet refactored)
+    #    Note: Do not remove yet; tools like neovim, wezterm, etc. are still handled here.
+    # - homebrew
+    # - dotfiles

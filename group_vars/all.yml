@@ -1,18 +1,40 @@
 ---
 # --- Dotfiles Configuration ---
-dotfiles_repo: "git@github.com:kazscape/dotfiles.git"
-dotfiles_dest: "{{ ansible_env.HOME }/dotfiles"
+dotfiles_repos:
+  # --- My Dotfiles ---
+  - name: "personal"
+    repo: "https://github.com/kazscape/dotfiles.git"
+    version: "main"
+    stow_packages:
+      - zsh
+      - tmux
+      # - wezterm
+      - aerospace
+      - fzf-git
+      - karabiner
+      # - nvim
+
+  # --- External Dotfiles ---
+  - name: "josean-dev"
+    repo: "https://github.com/josean-dev/dev-environment-files.git"
+    version: "main"
+    stow_packages: []
+
+  # - name: "another-user"
+  #   repo: "https://github.com/another/dotfiles.git"
+  #   version: "main"
+  #   stow_packages: []
 
 # --- Formulae (CLI Tools) ---
 homebrew_packages:
   - 1password-cli
   - awscli
-  - bat
-  - eza
-  - fd
+  # - bat
+  # - eza
+  # - fd
   - ffmpeg
   - ffmpegthumbnailer
-  - fzf
+  # - fzf
   - gh
   - git
   - git-filter-repo
@@ -22,13 +44,13 @@ homebrew_packages:
   - imagemagick
   - im-select
   - jq
-  - lazygit
-  - lua
+  # - lazygit
+  # - lua
   - mysql
-  - neovim
+  # - neovim
   - poppler
   - powerlevel10k
-  - ripgrep
+  # - ripgrep
   - sevenzip
   - stow
   - thefuck
@@ -77,4 +99,4 @@ homebrew_cask_apps:
   - shottr
   - visual-studio-code
   - vlc
-  - wezterm
+  # - wezterm

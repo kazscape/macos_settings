@@ -1,0 +1,42 @@
+---
+# 1. Install Neovim and companion tools
+- name: Install Neovim and related tools
+  homebrew:
+    name:
+      - neovim
+      - ripgrep # Essential for telescope/fzf in nvim
+      - lazygit # Often used within nvim
+      - lua # Required for many config scripts
+    state: present
+
+# 2. Symlink Configuration Directory
+#    Links ~/Workspace/settings/dotfiles/nvim -> ~/.config/nvim
+- name: Ensure .config directory exists
+  file:
+    path: ~/.config
+    state: directory
+    mode: "0755"
+
+- name: Symlink Neovim configuration
+  file:
+    src: "{{ playbook_dir }}/../dotfiles/nvim/.config/nvim"
+    dest: ~/.config/nvim
+    state: link
+    force: yes
+
+# 3. Deploy Zsh configuration
+- name: Deploy Zsh config for Neovim
+  copy:
+    dest: "{{ playbook_dir }}/../dotfiles/zsh/conf.d/20-nvim.zsh"
+    content: |
+      # --- Neovim Settings (Managed by Ansible) ---
+      export EDITOR='nvim'
+
+      # Aliases
+      alias vim='nvim'
+      alias vi='nvim'
+      alias v='nvim'
+
+      # Optional: merge conflicts tool
+      # git config --global merge.tool nvimdiff
+    mode: "0644"

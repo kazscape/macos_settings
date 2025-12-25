@@ -1,0 +1,6 @@
+---
+- name: Ensure Zsh configuration directory exists
+  file:
+    path: "{{ playbook_dir }}/../dotfiles/zsh/conf.d"
+    state: directory
+    mode: "0755"

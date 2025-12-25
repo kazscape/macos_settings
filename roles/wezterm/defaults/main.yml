@@ -1,0 +1,4 @@
+---
+dotfiles_links:
+  - src: ".wezterm.lua"
+    dest: ".wezterm.lua"

@@ -1,0 +1,41 @@
+---
+# 1. Install Zsh and Powerlevel10k
+- name: Install Zsh and P10k
+  homebrew:
+    name:
+      - zsh
+      - powerlevel10k
+    state: present
+
+# 2. Prerequisite (Ensure config directories exist)
+- name: Ensure Zsh config directories exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "~/.config/zsh"
+    - "~/.config/zsh/conf.d"
+
+# 3. Deploy .zshrc (The Entry Point)
+- name: Deploy .zshrc
+  copy:
+    src: "{{ role_path }}/files/.zshrc"
+    dest: "~/.zshrc"
+    mode: '0644'
+    backup: yes
+
+# 4. Deploy Powerlevel10k Config (Loader)
+- name: Deploy P10k loader
+  copy:
+    src: "{{ role_path }}/files/00-p10k.zsh"
+    dest: "~/.config/zsh/conf.d/00-p10k.zsh"
+    mode: '0644'
+
+# 5. Symlink .p10k.zsh (Visual Settings)
+- name: Symlink .p10k.zsh
+  file:
+    src: "{{ role_path }}/files/.p10k.zsh"
+    dest: "~/.p10k.zsh"
+    state: link
+    force: yes

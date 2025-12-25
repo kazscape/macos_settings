@@ -1,0 +1,42 @@
+---
+- name: Define destination paths
+  set_fact:
+    dotfiles_repos_with_path: "{{ dotfiles_repos_with_path | default([]) + [item | combine({'dest': dest_path})] }}"
+  vars:
+    dest_path: >-
+      {{
+        (playbook_dir + '/../dotfiles')
+        if item.name == 'personal'
+        else
+        (playbook_dir + '/../references/' + item.name)
+      }}
+  loop: "{{ dotfiles_repos }}"
+
+- name: Clone dotfiles repositories
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    version: "{{ item.version | default('main') }}"
+    update: yes
+    force: yes
+    accept_hostkey: yes
+  loop: "{{ dotfiles_repos_with_path }}"
+
+- name: Stow packages for each repository
+  shell: "stow -v {{ item.1 }} --target={{ ansible_facts.env.HOME }}"
+  args:
+    chdir: "{{ item.0.dest }}"
+  with_subelements:
+    - "{{ dotfiles_repos_with_path }}"
+    - stow_packages
+  register: stow_result
+  changed_when: "'LINK' in stow_result.stderr"
+  ignore_errors: yes
+
+- name: Show Stow Errors if any
+  debug:
+    msg: "Stow failed for {{ item.item.1 }} in {{ item.item.0.name }}. Please check conflicts."
+  when: item.failed is defined and item.failed
+  loop: "{{ stow_result.results }}"
+  loop_control:
+    label: "{{ item.item.0.name }} - {{ item.item.1 }}"

@@ -1,0 +1,37 @@
+---
+# 1. Install Application (GUI App uses homebrew_cask)
+- name: Install application
+  homebrew_cask:
+    name: wezterm
+    state: present
+
+# 2. Prerequisite (Ensure base config directory exists)
+- name: Ensure .config directory exists
+  file:
+    path: ~/.config
+    state: directory
+    mode: '0755'
+
+# 3. Symlink Dotfiles (Main configuration from defaults/main.yml)
+- name: Symlink configuration files
+  file:
+    src: "{{ role_path }}/files/{{ item.src }}"
+    dest: "{{ ansible_facts['user_dir'] }}/{{ item.dest }}"
+    state: link
+    force: yes
+    follow: no
+  loop: "{{ dotfiles_links | default([]) }}"
+
+# 4. Prerequisite (Ensure shell config directory exists)
+- name: Ensure Zsh config directory exists
+  file:
+    path: "~/.config/zsh/conf.d"
+    state: directory
+    mode: '0755'
+
+# 5. Deploy Shell Configuration (Zsh integration script)
+- name: Deploy Zsh configuration
+  copy:
+    src: "{{ role_path }}/files/wezterm.zsh"
+    dest: "~/.config/zsh/conf.d/50-wezterm.zsh" 
+    mode: "0644"

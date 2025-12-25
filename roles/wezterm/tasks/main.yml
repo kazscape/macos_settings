@@ -1,8 +1,10 @@
 ---
 # 1. Install Application (GUI App uses homebrew_cask)
-- name: Install application
+- name: Install application and Dependencies
   homebrew_cask:
-    name: wezterm
+    name:
+      - wezterm
+      - font-plemol-jp-nf
     state: present
 
 # 2. Prerequisite (Ensure base config directory exists)
@@ -10,7 +12,7 @@
   file:
     path: ~/.config
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 # 3. Symlink Dotfiles (Main configuration from defaults/main.yml)
 - name: Symlink configuration files
@@ -27,11 +29,11 @@
   file:
     path: "~/.config/zsh/conf.d"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 # 5. Deploy Shell Configuration (Zsh integration script)
 - name: Deploy Zsh configuration
   copy:
     src: "{{ role_path }}/files/wezterm.zsh"
-    dest: "~/.config/zsh/conf.d/50-wezterm.zsh" 
+    dest: "~/.config/zsh/conf.d/50-wezterm.zsh"
     mode: "0644"

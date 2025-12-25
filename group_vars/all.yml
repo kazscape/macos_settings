@@ -44,7 +44,6 @@ homebrew_cask_apps:
   - cron
   - dbeaver-community
   - docker
-  - font-plemol-jp-nf # WezTermで使うフォントですが、汎用なのでここでもOK
   - git-credential-manager
   - intellij-idea
   - karabiner-elements

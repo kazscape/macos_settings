@@ -1,6 +1,37 @@
 ---
-- name: Ensure Zsh configuration directory exists
-  file:
-    path: "{{ playbook_dir }}/../dotfiles/zsh/conf.d"
-    state: directory
-    mode: "0755"
+# 1. Install Common Tools
+- name: Install common CLI tools
+  homebrew:
+    name:
+      - fzf
+      - bat
+      - eza
+      - thefuck
+      - zoxide
+      - yazi
+      - volta
+      - openjdk
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
+      - fd
+    state: present
+
+# 2. Install fzf-git.sh (Manual Clone)
+- name: Install fzf-git.sh
+  git:
+    repo: 'https://github.com/junegunn/fzf-git.sh.git'
+    dest: "~/.config/fzf-git"
+    version: main
+
+# 3. Configuration Files
+- name: Deploy common zsh configs
+  copy:
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: "~/.config/zsh/conf.d/{{ item }}"
+    mode: '0644'
+  loop:
+    - 10-basics.zsh
+    - 20-runtimes.zsh
+    - 30-tools.zsh
+    - 31-fzf.zsh
+    - 80-highlighting.zsh

@@ -13,5 +13,5 @@
 
     # 3. Legacy Roles (For tools not yet refactored)
     #    Note: Do not remove yet; tools like neovim, wezterm, etc. are still handled here.
-    # - homebrew
+    - homebrew
     # - dotfiles

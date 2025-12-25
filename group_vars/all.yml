@@ -1,27 +1,10 @@
 ---
 # --- Dotfiles Configuration ---
-dotfiles_repos:
-  # --- My Dotfiles ---
-  - name: "personal"
-    repo: "https://github.com/kazscape/dotfiles.git"
-    version: "main"
-    stow_packages:
-      - zsh
-      - tmux
-      # - wezterm
-      - aerospace
-      - fzf-git
-      - karabiner
-      # - nvim
-
-  # --- External Dotfiles ---
-  - name: "josean-dev"
-    repo: "https://github.com/josean-dev/dev-environment-files.git"
-    version: "main"
-    stow_packages: []
-
-  # - name: "another-user"
-  #   repo: "https://github.com/another/dotfiles.git"
+# Stow方式（旧方式）は廃止したため、ここは空、または外部リポジトリ用として残すのみにします
+dotfiles_repos: []
+  # 必要であれば外部の参照用リポジトリだけ残す
+  # - name: "josean-dev"
+  #   repo: "https://github.com/josean-dev/dev-environment-files.git"
   #   version: "main"
   #   stow_packages: []
 
@@ -29,40 +12,23 @@ dotfiles_repos:
 homebrew_packages:
   - 1password-cli
   - awscli
-  # - bat
-  # - eza
-  # - fd
   - ffmpeg
   - ffmpegthumbnailer
-  # - fzf
   - gh
   - git
   - git-filter-repo
-  - hatch
   - git-gui
+  - hatch
   - httpie
   - imagemagick
   - im-select
   - jq
-  # - lazygit
-  # - lua
   - mysql
-  # - neovim
   - poppler
-  - powerlevel10k
-  # - ripgrep
   - sevenzip
-  - stow
-  - thefuck
-  - tmux
-  - tpm
+  - tmux       # tmuxロールを作る予定なら後で移動、一旦ここに放置
+  - tpm        # 同上
   - tree
-  - volta
-  - yazi
-  - zoxide
-  - zsh
-  - zsh-autosuggestions
-  - zsh-syntax-highlighting
 
 # --- Casks (GUI Apps) ---
 homebrew_cask_apps:
@@ -79,7 +45,7 @@ homebrew_cask_apps:
   - cron
   - dbeaver-community
   - docker
-  - font-plemol-jp-nf
+  - font-plemol-jp-nf  # WezTermで使うフォントですが、汎用なのでここでもOK
   - git-credential-manager
   - intellij-idea
   - karabiner-elements
@@ -89,7 +55,7 @@ homebrew_cask_apps:
   - miro
   - monitorcontrol
   - mysqlworkbench
-  - nikitabobko/tap/aerospace
+  - nikitabobko/tap/aerospace # Aerospaceロールを作るなら後で移動
   - notion
   - pgadmin4
   - pycharm-ce
@@ -99,4 +65,3 @@ homebrew_cask_apps:
   - shottr
   - visual-studio-code
   - vlc
-  # - wezterm

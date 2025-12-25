@@ -1,4 +1,3 @@
-```markdown
 # macOS Setup with Ansible
 
 This repository automates the provisioning and configuration of a macOS development environment using **Ansible**. It manages Homebrew packages, dotfiles (via GNU Stow), and system preferences in a modular, role-based architecture.
@@ -14,13 +13,13 @@ This repository automates the provisioning and configuration of a macOS developm
 
 Before running the playbook, ensure you have **Ansible** installed on your machine.
 
-1. **Install Homebrew** (if not already installed):
-   ```bash
+### 1. **Install Homebrew** (if not already installed):
+```bash
    /bin/bash -c "$(curl -fsSL [https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh](https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh))"
 
 ```
 
-2. **Install Ansible**:
+### 2. **Install Ansible**:
 ```bash
 brew install ansible
 

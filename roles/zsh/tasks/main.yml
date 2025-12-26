@@ -1,41 +1,23 @@
----
-# 1. Install Zsh and Powerlevel10k
-- name: Install Zsh and P10k
+# 1. Install Packages
+- name: Install packages
   homebrew:
-    name:
-      - zsh
-      - powerlevel10k
+    name: "{{ item }}"
     state: present
+  loop: "{{ role_vars.packages | default([]) }}"
 
-# 2. Prerequisite (Ensure config directories exist)
-- name: Ensure Zsh config directories exist
+# 2. Ensure Required Directories Exist
+- name: Ensure configuration directories exist
   file:
-    path: "{{ item }}"
+    path: "{{ ansible_facts['user_dir'] }}/{{ item }}"
     state: directory
-    mode: '0755'
-  loop:
-    - "~/.config/zsh"
-    - "~/.config/zsh/conf.d"
+    mode: "0755"
+  loop: "{{ role_vars.config_dirs | default([]) }}"
 
-# 3. Deploy .zshrc (The Entry Point)
-- name: Deploy .zshrc
-  copy:
-    src: "{{ role_path }}/files/.zshrc"
-    dest: "~/.zshrc"
-    mode: '0644'
-    backup: yes
-
-# 4. Deploy Powerlevel10k Config (Loader)
-- name: Deploy P10k loader
-  copy:
-    src: "{{ role_path }}/files/00-p10k.zsh"
-    dest: "~/.config/zsh/conf.d/00-p10k.zsh"
-    mode: '0644'
-
-# 5. Symlink .p10k.zsh (Visual Settings)
-- name: Symlink .p10k.zsh
+# 3. Create Symbolic Links
+- name: Symlink configuration files
   file:
-    src: "{{ role_path }}/files/.p10k.zsh"
-    dest: "~/.p10k.zsh"
+    src: "{{ role_path }}/files/{{ item.src }}"
+    dest: "{{ ansible_facts['user_dir'] }}/{{ item.dest }}"
     state: link
     force: yes
+  loop: "{{ role_vars.symlinks | default([]) }}"

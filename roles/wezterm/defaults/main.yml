@@ -7,12 +7,12 @@ role_vars:
 
   # All symbolic links (both App config and Shell config)
   symlinks:
-    - src: "wezterm"
-      dest: ".config/wezterm"
+    - src: "wezterm/wezterm.lua"
+      dest: ".config/wezterm/wezterm.lua"
     - src: "wezterm-conf-d/50-wezterm.zsh"
       dest: ".config/zsh/conf.d/50-wezterm.zsh"
 
   # Directories that must exist before linking
   config_dirs:
-    - .config
+    - .config/wezterm
     - .config/zsh/conf.d

@@ -1,28 +1,25 @@
 ---
-# 1. Install Aerospace
-- name: Install Aerospace (Tiling Window Manager)
-  homebrew_cask:
-    name: nikitabobko/tap/aerospace
+# 1. Install Packages
+- name: Install packages
+  homebrew:
+    name: "{{ role_vars.packages | default([]) }}"
     state: present
-    accept_external_apps: yes
+  when: role_vars.packages is defined and role_vars.packages | length > 0
+  tags: ["brew"]
 
-# 2. Setup Configuration Directory
-- name: Ensure aerospace config directory exists
+# 2. Ensure Required Directories Exist
+- name: Ensure configuration directories exist
   file:
-    path: "~/.config/aerospace"
+    path: "{{ ansible_facts['user_dir'] }}/{{ item }}"
     state: directory
     mode: "0755"
+  loop: "{{ role_vars.config_dirs | default([]) }}"
 
-# 3. Deploy Configuration
-- name: Deploy aerospace.toml
-  copy:
-    src: "{{ role_path }}/files/aerospace.toml"
-    dest: "~/.config/aerospace/aerospace.toml"
-    mode: "0644"
-
-# 4. Deploy Zsh Aliases
-- name: Deploy aerospace zsh config
-  copy:
-    src: "{{ role_path }}/files/52-aerospace.zsh"
-    dest: "~/.config/zsh/conf.d/52-aerospace.zsh"
-    mode: "0644"
+# 3. Create Symbolic Links (Standard Rule)
+- name: Symlink configuration files
+  file:
+    src: "{{ role_path }}/files/{{ item.src }}"
+    dest: "{{ ansible_facts['user_dir'] }}/{{ item.dest }}"
+    state: link
+    force: yes
+  loop: "{{ role_vars.symlinks | default([]) }}"

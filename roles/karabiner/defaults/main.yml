@@ -1,0 +1,11 @@
+---
+role_vars:
+  packages:
+    - karabiner-elements
+
+  symlinks:
+    - src: "karabiner"
+      dest: ".config/karabiner"
+
+  config_dirs:
+    - .config

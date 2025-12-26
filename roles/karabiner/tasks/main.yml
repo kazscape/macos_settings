@@ -1,0 +1,24 @@
+---
+# 1. Install Packages
+- name: Install packages
+  homebrew_cask:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ role_vars.packages | default([]) }}"
+
+# 2. Ensure Required Directories Exist
+- name: Ensure configuration directories exist
+  file:
+    path: "{{ ansible_facts['user_dir'] }}/{{ item }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ role_vars.config_dirs | default([]) }}"
+
+# 3. Create Symbolic Links (Unified for all configs)
+- name: Symlink configuration files
+  file:
+    src: "{{ role_path }}/files/{{ item.src }}"
+    dest: "{{ ansible_facts['user_dir'] }}/{{ item.dest }}"
+    state: link
+    force: yes
+  loop: "{{ role_vars.symlinks | default([]) }}"

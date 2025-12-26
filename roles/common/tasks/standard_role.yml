@@ -1,0 +1,20 @@
+- name: Install packages
+  homebrew:
+    name: "{{ role_vars.packages | default([]) }}"
+    state: present
+  when: role_vars.packages is defined and role_vars.packages | length > 0
+
+- name: Ensure configuration directories exist
+  file:
+    path: "{{ ansible_facts['user_dir'] }}/{{ item }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ role_vars.config_dirs | default([]) }}"
+
+- name: Symlink configuration files
+  file:
+    src: "{{ role_path }}/files/{{ item.src }}"
+    dest: "{{ ansible_facts['user_dir'] }}/{{ item.dest }}"
+    state: link
+    force: yes
+  loop: "{{ role_vars.symlinks | default([]) }}"

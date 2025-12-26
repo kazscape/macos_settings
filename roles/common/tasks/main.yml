@@ -1,10 +1,5 @@
 ---
-# 1. Install Packages
-- name: Install packages
-  homebrew:
-    name: "{{ role_vars.packages | default([]) }}"
-    state: present
-  when: role_vars.packages is defined and role_vars.packages | length > 0
+- import_tasks: standard_role.yml
 
 # 2. Install fzf-git.sh
 - name: Install fzf-git.sh
@@ -12,20 +7,3 @@
     repo: "https://github.com/junegunn/fzf-git.sh.git"
     dest: "{{ ansible_facts['user_dir'] }}/.local/share/fzf-git"
     version: main
-
-# 3. Ensure Required Directories Exist
-- name: Ensure configuration directories exist
-  file:
-    path: "{{ ansible_facts['user_dir'] }}/{{ item }}"
-    state: directory
-    mode: "0755"
-  loop: "{{ role_vars.config_dirs | default([]) }}"
-
-# 4. Create Symbolic Links
-- name: Symlink configuration files
-  file:
-    src: "{{ role_path }}/files/{{ item.src }}"
-    dest: "{{ ansible_facts['user_dir'] }}/{{ item.dest }}"
-    state: link
-    force: yes
-  loop: "{{ role_vars.symlinks | default([]) }}"

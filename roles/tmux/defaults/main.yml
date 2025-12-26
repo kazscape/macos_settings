@@ -1,0 +1,23 @@
+---
+role_vars:
+  # List of packages to install
+  packages:
+    - tmux
+
+  # All symbolic links (both App config and Shell config)
+  symlinks:
+    - src: "tmux/tmux.conf"
+      dest: ".config/tmux/tmux.conf"
+    - src: "tmux-conf-d/52-tmux.zsh"
+      dest: ".config/zsh/conf.d/52-tmux.zsh"
+
+  # Directories that must exist before linking
+  config_dirs:
+    - .config/tmux
+    - .config/zsh/conf.d
+    - .config/tmux/plugins # TPM用
+
+  # TPM Specific settings
+  tpm:
+    repo: "https://github.com/tmux-plugins/tpm"
+    dest: ".config/tmux/plugins/tpm"

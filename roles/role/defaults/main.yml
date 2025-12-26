@@ -1,23 +1,19 @@
 ---
 role_vars:
-  # List of packages to install via Homebrew (Cask or Formula)
+  # List of packages to install
   packages:
     []
     # - example-app
     # - example-cli
 
-  # List of symbolic links to create
-  # src: Path relative to 'files/' directory
-  # dest: Path relative to the user's home directory
+  # All symbolic links (both App config and Shell config)
   symlinks:
-    # Example for home directory:
-    # - src: "role/config_file"
-    #   dest: ".config_file"
-    # Example for .config directory:
-    # - src: "role-conf-d/extra_config.zsh"
-    #   dest: ".config/zsh/conf.d/extra_config.zsh"
+    - src: "role"
+      dest: ".config/role"
+    - src: "role-conf-d/99-role.zsh"
+      dest: ".config/zsh/conf.d/99-role.zsh"
 
-  # List of directories to be created before symlinking
+  # Directories that must exist before linking
   config_dirs:
     - .config
-    # - .config/example
+    - .config/zsh/conf.d

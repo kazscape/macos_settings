@@ -1,34 +1,32 @@
 ---
-# 1. Install Tmux
-- name: Install Tmux
+# 1. Install Packages
+- name: Install packages
   homebrew:
-    name: tmux
+    name: "{{ role_vars.packages | default([]) }}"
     state: present
+  when: role_vars.packages is defined and role_vars.packages | length > 0
 
-# 2. Setup Configuration Directory
-- name: Ensure tmux config directory exists
+# 2. Ensure Required Directories Exist
+- name: Ensure configuration directories exist
   file:
-    path: "~/.config/tmux"
+    path: "{{ ansible_facts['user_dir'] }}/{{ item }}"
     state: directory
     mode: "0755"
+  loop: "{{ role_vars.config_dirs | default([]) }}"
 
-# 3. Deploy Configuration
-- name: Deploy tmux.conf
-  copy:
-    src: "{{ role_path }}/files/tmux.conf"
-    dest: "~/.config/tmux/tmux.conf"
-    mode: "0644"
+# 3. Create Symbolic Links (Individual Link Rule)
+- name: Symlink configuration files
+  file:
+    src: "{{ role_path }}/files/{{ item.src }}"
+    dest: "{{ ansible_facts['user_dir'] }}/{{ item.dest }}"
+    state: link
+    force: yes
+  loop: "{{ role_vars.symlinks | default([]) }}"
 
-# 4. Install TPM (Tmux Plugin Manager)
+# 4. Install TPM (Tmux Specific)
 - name: Install TPM
   git:
-    repo: "https://github.com/tmux-plugins/tpm"
-    dest: "~/.config/tmux/plugins/tpm"
+    repo: "{{ role_vars.tpm.repo }}"
+    dest: "{{ ansible_facts['user_dir'] }}/{{ role_vars.tpm.dest }}"
     version: master
-
-# 5. Deploy Zsh Aliases
-- name: Deploy tmux zsh config to conf.d
-  copy:
-    src: "{{ role_path }}/files/51-tmux.zsh"
-    dest: "~/.config/zsh/conf.d/51-tmux.zsh"
-    mode: "0644"
+  when: role_vars.tpm is defined

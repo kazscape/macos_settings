@@ -14,6 +14,7 @@ This repository automates the provisioning and configuration of a macOS developm
 Before running the playbook, ensure you have **Ansible** installed on your machine.
 
 ### 1. **Install Homebrew** (if not already installed):
+
 ```bash
 /bin/bash -c "$(curl -fsSL [https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh](https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh))"
 
@@ -39,7 +40,7 @@ make check
 
 ```
 
-*(Equivalent to: `ansible-playbook local.yml --syntax-check` and `--check` mode)*
+_(Equivalent to: `ansible-playbook local.yml --syntax-check` and `--check` mode)_
 
 ### 2. Apply Changes
 
@@ -59,21 +60,20 @@ You can customize the installation by editing the variables and playbook files.
 
 To add or remove software, edit **`group_vars/all.yml`**:
 
-* **`homebrew_packages`**: List of CLI tools (e.g., `git`, `neovim`, `tree`).
-* **`homebrew_cask_apps`**: List of GUI applications (e.g., `google-chrome`, `iterm2`).
+- **`homebrew_packages`**: List of CLI tools (e.g., `git`, `neovim`, `tree`).
+- **`homebrew_cask_apps`**: List of GUI applications (e.g., `google-chrome`, `iterm2`).
 
 ### Enabling/Disabling Roles
 
 To control which tasks are run, edit **`local.yml`**.
 
 ```yaml
-  roles:
-    - common
-    - zsh
-    - nvim
-    - wezterm
-    # - macos     <-- Uncomment to enable
-
+roles:
+  - common
+  - zsh
+  - nvim
+  - wezterm
+  # - macos     <-- Uncomment to enable
 ```
 
 ## 📏 Zsh Configuration Convention
@@ -81,15 +81,73 @@ To control which tasks are run, edit **`local.yml`**.
 Zsh configuration files are split and managed in `~/.config/zsh/conf.d/`. They are loaded in alphabetical order.
 We use a **numbering prefix** to ensure dependencies are loaded in the correct order.
 
-| Prefix | Category | Description | Examples |
-| --- | --- | --- | --- |
-| **00-09** | **Bootstrap** | Initialization required before anything else | `00-p10k.zsh` (Instant Prompt) |
-| **10-19** | **Zsh Core** | Basic shell behavior | `10-basics.zsh` (History, Bindkeys) |
-| **20-29** | **Environment** | Runtimes and PATH setup | `20-runtimes.zsh` (Node, Java, Go) |
-| **30-49** | **CLI Tools** | Common tools configurations | `30-tools.zsh`, `31-fzf.zsh` |
-| **50-79** | **Apps (Roles)** | App-specific aliases and integration | `50-wezterm.zsh`, `50-nvim.zsh` |
-| **80-89** | **Visuals** | Syntax highlighting and theming | `80-highlighting.zsh` |
-| **90-99** | **Local** | Secrets and local overrides | `99-local_secrets.zsh` |
+| Prefix    | Category         | Description                                  | Examples                            |
+| --------- | ---------------- | -------------------------------------------- | ----------------------------------- |
+| **00-09** | **Bootstrap**    | Initialization required before anything else | `00-p10k.zsh` (Instant Prompt)      |
+| **10-19** | **Zsh Core**     | Basic shell behavior                         | `10-basics.zsh` (History, Bindkeys) |
+| **20-29** | **Environment**  | Runtimes and PATH setup                      | `20-runtimes.zsh` (Node, Java, Go)  |
+| **30-49** | **CLI Tools**    | Common tools configurations                  | `30-tools.zsh`, `31-fzf.zsh`        |
+| **50-79** | **Apps (Roles)** | App-specific aliases and integration         | `50-wezterm.zsh`, `50-nvim.zsh`     |
+| **80-89** | **Visuals**      | Syntax highlighting and theming              | `80-highlighting.zsh`               |
+| **90-99** | **Local**        | Secrets and local overrides                  | `99-local_secrets.zsh`              |
+
+## 🛠️ Role Template & Standardization
+
+To maintain consistency across different tools, we use a **standardized role template**. This allows for a generic, reusable task structure where logic and data are strictly separated.
+
+### 🏗️ Standard Role Structure
+
+Every new role should follow this directory layout:
+
+```text
+roles/<role_name>/
+├── defaults
+│   └── main.yml        # Data: Package lists, symlink paths, and directories
+├── files
+│   ├── <role_name>/    # Files to be symlinked to the home directory (e.g., .zshrc)
+│   └── <role_name>-conf-d/ # Files to be symlinked to ~/.config/zsh/conf.d/
+└── tasks
+    └── main.yml        # Logic: Generic tasks (Same for all roles)
+
+```
+
+### 📋 How to Create a New Role
+
+We provide a `roles/role/` directory as a blueprint. Follow these steps to add a new tool:
+
+1. **Create a new branch**:
+
+```bash
+git checkout -b add-<role_name>
+
+```
+
+2. **Copy the template**:
+
+```bash
+cp -r roles/role roles/<role_name>
+
+```
+
+3. **Configure the data**:
+   Edit `roles/<role_name>/defaults/main.yml` to define your packages and symlinks.
+
+- **Individual Link Rule**: We link files individually rather than linking entire directories to avoid conflicts in shared paths like `~/.config/zsh/conf.d/`.
+
+4. **Add config files**:
+   Place your configuration files in `roles/<role_name>/files/`.
+
+5. **Enable the role**:
+   Add the role name to `local.yml`.
+
+6. **Verify and Push**:
+
+```bash
+make check
+git add .
+git commit -m "feat(<role_name>): add new role using standard template"
+git push origin add-<role_name>
+```
 
 ## 📂 Directory Structure
 
@@ -112,6 +170,4 @@ We use a **numbering prefix** to ensure dependencies are loaded in the correct o
 
 ## ⚠️ Notes
 
-* **Monorepo Structure**: Configuration files (dotfiles) are located inside `roles/<role_name>/files/`. Ansible symlinks them to the target destination.
-
-```
+- **Monorepo Structure**: Configuration files (dotfiles) are located inside `roles/<role_name>/files/`. Ansible symlinks them to the target destination.

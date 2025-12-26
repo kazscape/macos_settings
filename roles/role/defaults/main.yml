@@ -1,0 +1,23 @@
+---
+role_vars:
+  # List of packages to install via Homebrew (Cask or Formula)
+  packages:
+    []
+    # - example-app
+    # - example-cli
+
+  # List of symbolic links to create
+  # src: Path relative to 'files/' directory
+  # dest: Path relative to the user's home directory
+  symlinks:
+    # Example for home directory:
+    # - src: "role/config_file"
+    #   dest: ".config_file"
+    # Example for .config directory:
+    # - src: "role-conf-d/extra_config.zsh"
+    #   dest: ".config/zsh/conf.d/extra_config.zsh"
+
+  # List of directories to be created before symlinking
+  config_dirs:
+    - .config
+    # - .config/example

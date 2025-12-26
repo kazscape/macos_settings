@@ -1,39 +1,24 @@
 ---
-# 1. Install Application (GUI App uses homebrew_cask)
-- name: Install application and Dependencies
+# 1. Install Packages
+- name: Install packages
   homebrew_cask:
-    name:
-      - wezterm
-      - font-plemol-jp-nf
+    name: "{{ item }}"
     state: present
+  loop: "{{ role_vars.packages | default([]) }}"
 
-# 2. Prerequisite (Ensure base config directory exists)
-- name: Ensure .config directory exists
+# 2. Ensure Required Directories Exist
+- name: Ensure configuration directories exist
   file:
-    path: ~/.config
+    path: "{{ ansible_facts['user_dir'] }}/{{ item }}"
     state: directory
     mode: "0755"
+  loop: "{{ role_vars.config_dirs | default([]) }}"
 
-# 3. Symlink Dotfiles (Main configuration from defaults/main.yml)
+# 3. Create Symbolic Links (Unified for all configs)
 - name: Symlink configuration files
   file:
     src: "{{ role_path }}/files/{{ item.src }}"
     dest: "{{ ansible_facts['user_dir'] }}/{{ item.dest }}"
     state: link
     force: yes
-    follow: no
-  loop: "{{ dotfiles_links | default([]) }}"
-
-# 4. Prerequisite (Ensure shell config directory exists)
-- name: Ensure Zsh config directory exists
-  file:
-    path: "~/.config/zsh/conf.d"
-    state: directory
-    mode: "0755"
-
-# 5. Deploy Shell Configuration (Zsh integration script)
-- name: Deploy Zsh configuration
-  copy:
-    src: "{{ role_path }}/files/wezterm.zsh"
-    dest: "~/.config/zsh/conf.d/50-wezterm.zsh"
-    mode: "0644"
+  loop: "{{ role_vars.symlinks | default([]) }}"

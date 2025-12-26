@@ -1,4 +1,18 @@
 ---
-dotfiles_links:
-  - src: ".wezterm.lua"
-    dest: ".wezterm.lua"
+role_vars:
+  # List of packages to install
+  packages:
+    - wezterm
+    - font-plemol-jp-nf
+
+  # All symbolic links (both App config and Shell config)
+  symlinks:
+    - src: "wezterm"
+      dest: ".config/wezterm"
+    - src: "50-wezterm.zsh"
+      dest: ".config/zsh/conf.d/50-wezterm.zsh"
+
+  # Directories that must exist before linking
+  config_dirs:
+    - .config
+    - .config/zsh/conf.d

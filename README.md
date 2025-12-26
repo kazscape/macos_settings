@@ -110,11 +110,11 @@ We use a **numbering prefix** to ensure dependencies are loaded in the correct o
 | common    | 20      | `20-runtimes.zsh`             | Runtime environments (Node, Java, etc.)          |
 | common    | 30      | `30-tools.zsh`                | Common tools configuration                       |
 | common    | 31      | `31-fzf.zsh`                  | FZF configuration                                |
-| common    | 80      | `80-highlighting.zsh`         | Syntax highlighting                              |
 | wezterm   | 50      | `50-wezterm.zsh`              | WezTerm integration                              |
 | nvim      | 51      | `51-nvim.zsh`                 | Neovim aliases and integration                   |
 | tmux      | 52      | `52-tmux.zsh`                 | Tmux integration                                 |
 | aerospace | 53      | `53-aerospace.zsh`            | Aerospace aliases and integration                |
+| common    | 80      | `80-highlighting.zsh`         | Syntax highlighting                              |
 | role      | 99      | `99-role.zsh`                 | Template file (example)                          |
 
 ## 🛠️ Role Template & Standardization

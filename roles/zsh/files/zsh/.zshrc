@@ -34,3 +34,6 @@ fi
 # ==============================================================================
 # (必要であればここにプロンプト設定や補完の設定などを追記)
 autoload -Uz compinit && compinit
+
+# Added by Antigravity
+export PATH="/Users/kazuharu.yamauchi/.antigravity/antigravity/bin:$PATH"

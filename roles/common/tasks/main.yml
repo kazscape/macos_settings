@@ -6,7 +6,7 @@
     state: present
   when: role_vars.packages is defined and role_vars.packages | length > 0
 
-# 2. Install fzf-git.sh (Manual Clone)
+# 2. Install fzf-git.sh
 - name: Install fzf-git.sh
   git:
     repo: "https://github.com/junegunn/fzf-git.sh.git"
@@ -21,7 +21,7 @@
     mode: "0755"
   loop: "{{ role_vars.config_dirs | default([]) }}"
 
-# 4. Create Symbolic Links (Individual Link Rule)
+# 4. Create Symbolic Links
 - name: Symlink configuration files
   file:
     src: "{{ role_path }}/files/{{ item.src }}"

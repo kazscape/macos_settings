@@ -101,6 +101,22 @@ We use a **numbering prefix** to ensure dependencies are loaded in the correct o
 | **80-89** | **Visuals**      | Syntax highlighting and theming              | `80-highlighting.zsh`               |
 | **90-99** | **Local**        | Secrets and local overrides                  | `99-local_secrets.zsh`              |
 
+### 📜 Managed Zsh Files by Role
+
+| Role      | Prefix  | File                          | Description                                      |
+| --------- | ------- | ----------------------------- | ------------------------------------------------ |
+| zsh       | 00      | `00-p10k.zsh`                 | Powerlevel10k configuration                      |
+| common    | 10      | `10-basics.zsh`               | Basic shell settings (history, bindkeys)         |
+| common    | 20      | `20-runtimes.zsh`             | Runtime environments (Node, Java, etc.)          |
+| common    | 30      | `30-tools.zsh`                | Common tools configuration                       |
+| common    | 31      | `31-fzf.zsh`                  | FZF configuration                                |
+| common    | 80      | `80-highlighting.zsh`         | Syntax highlighting                              |
+| wezterm   | 50      | `50-wezterm.zsh`              | WezTerm integration                              |
+| nvim      | 51      | `51-nvim.zsh`                 | Neovim aliases and integration                   |
+| tmux      | 52      | `52-tmux.zsh`                 | Tmux integration                                 |
+| aerospace | 53      | `53-aerospace.zsh`            | Aerospace aliases and integration                |
+| role      | 99      | `99-role.zsh`                 | Template file (example)                          |
+
 ## 🛠️ Role Template & Standardization
 
 To maintain consistency across different tools, we use a **standardized role template**. This allows for a generic, reusable task structure where logic and data are strictly separated.

@@ -1,11 +1,15 @@
 ---
 role_vars:
+  # List of packages to install
   packages:
     - karabiner-elements
+  state: present
 
+  # All symbolic links (both App config and Shell config)
   symlinks:
     - src: "karabiner"
       dest: ".config/karabiner"
 
+  # List of directories to be created before symlinking
   config_dirs:
     - .config

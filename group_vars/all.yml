@@ -46,7 +46,6 @@ homebrew_cask_apps:
   - docker
   - git-credential-manager
   - intellij-idea
-  - karabiner-elements
   - keyboardcleantool
   - keyclu
   - menubarx

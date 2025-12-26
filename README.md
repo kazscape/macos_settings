@@ -44,13 +44,23 @@ _(Equivalent to: `ansible-playbook local.yml --syntax-check` and `--check` mode)
 
 ### 2. Apply Changes
 
-Executes the playbook and applies the configurations to your machine.
-**Note:** You may be asked for your `sudo` password during execution for system changes.
+Executes the playbook and applies all configurations, including Homebrew package installations.
 
 ```bash
 make apply
 
 ```
+
+### 3. Apply Configuration Only (Skip Homebrew)
+
+Executes the playbook while skipping the `homebrew` role. Use this for **fast updates** when you only want to reflect changes in config files (symlinks) without waiting for Homebrew updates.
+
+```bash
+make apply-config
+
+```
+
+_(Equivalent to: `ansible-playbook local.yml --skip-tags "brew"`)_
 
 ## ⚙️ Configuration
 

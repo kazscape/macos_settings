@@ -1,0 +1,22 @@
+---
+role_vars:
+  # List of packages to install
+  packages:
+    - neovim
+    - ripgrep
+    - lazygit
+    - lua
+    - luajit
+  state: present
+
+  # All symbolic links (both App config and Shell config)
+  symlinks:
+    - src: "nvim"
+      dest: ".config/nvim"
+    - src: "nvim-conf-d/51-nvim.zsh"
+      dest: ".config/zsh/conf.d/51-nvim.zsh"
+
+  # List of directories to be created before symlinking
+  config_dirs:
+    - .config
+    - .config/zsh/conf.d

@@ -1,0 +1,32 @@
+---
+role_vars:
+  # List of packages to install
+  packages:
+    - fzf
+    - bat
+    - eza
+    - thefuck
+    - zoxide
+    - yazi
+    - volta
+    - openjdk
+    - zsh-autosuggestions
+    - zsh-syntax-highlighting
+    - fd
+
+  # All symbolic links (both App config and Shell config)
+  symlinks:
+    - src: "zsh-conf-d/10-basics.zsh"
+      dest: ".config/zsh/conf.d/10-basics.zsh"
+    - src: "zsh-conf-d/20-runtimes.zsh"
+      dest: ".config/zsh/conf.d/20-runtimes.zsh"
+    - src: "zsh-conf-d/30-tools.zsh"
+      dest: ".config/zsh/conf.d/30-tools.zsh"
+    - src: "zsh-conf-d/31-fzf.zsh"
+      dest: ".config/zsh/conf.d/31-fzf.zsh"
+    - src: "zsh-conf-d/80-highlighting.zsh"
+      dest: ".config/zsh/conf.d/80-highlighting.zsh"
+
+  # Directories that must exist before linking
+  config_dirs:
+    - .config/zsh/conf.d

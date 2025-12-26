@@ -1,0 +1,1 @@
+/Users/kazuharu.yamauchi/Workspace/settings/macos-settings/roles/zsh/files/zsh-conf-d/00-p10k.zsh

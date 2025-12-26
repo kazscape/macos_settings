@@ -1,37 +1,30 @@
 ---
-# 1. Install Common Tools
-- name: Install common CLI tools
+# 1. Install Packages
+- name: Install common packages
   homebrew:
-    name:
-      - fzf
-      - bat
-      - eza
-      - thefuck
-      - zoxide
-      - yazi
-      - volta
-      - openjdk
-      - zsh-autosuggestions
-      - zsh-syntax-highlighting
-      - fd
+    name: "{{ role_vars.packages | default([]) }}"
     state: present
 
 # 2. Install fzf-git.sh (Manual Clone)
 - name: Install fzf-git.sh
   git:
-    repo: 'https://github.com/junegunn/fzf-git.sh.git'
-    dest: "~/.local/share/fzf-git"
+    repo: "https://github.com/junegunn/fzf-git.sh.git"
+    dest: "{{ ansible_facts['user_dir'] }}/.local/share/fzf-git"
     version: main
 
-# 3. Configuration Files
-- name: Deploy common zsh configs
-  copy:
-    src: "{{ role_path }}/files/{{ item }}"
-    dest: "~/.config/zsh/conf.d/{{ item }}"
-    mode: '0644'
-  loop:
-    - 10-basics.zsh
-    - 20-runtimes.zsh
-    - 30-tools.zsh
-    - 31-fzf.zsh
-    - 80-highlighting.zsh
+# 3. Ensure Required Directories Exist
+- name: Ensure configuration directories exist
+  file:
+    path: "{{ ansible_facts['user_dir'] }}/{{ item }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ role_vars.config_dirs | default([]) }}"
+
+# 4. Create Symbolic Links
+- name: Symlink configuration files
+  file:
+    src: "{{ role_path }}/files/{{ item.src }}"
+    dest: "{{ ansible_facts['user_dir'] }}/{{ item.dest }}"
+    state: link
+    force: yes
+  loop: "{{ role_vars.symlinks | default([]) }}"

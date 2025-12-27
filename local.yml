@@ -10,6 +10,7 @@
     # 2. Development Tools (Roles)
     #    (Installation and config deployment for specific tools)
     - git
+    - vscode
     - nvim
     - wezterm
     - tmux

@@ -1,0 +1,8 @@
+---
+role_vars:
+  cask_apps:
+    - visual-studio-code
+
+  symlinks:
+    - src: "settings.json"
+      dest: "Library/Application Support/Code/User/settings.json"

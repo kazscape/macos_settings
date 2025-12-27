@@ -1,0 +1,8 @@
+---
+- import_tasks: ../../common/tasks/standard_role.yml
+
+- name: Install cask applications
+  homebrew_cask:
+    name: "{{ role_vars.cask_apps | default([]) }}"
+    state: present
+  when: role_vars.cask_apps is defined and role_vars.cask_apps | length > 0

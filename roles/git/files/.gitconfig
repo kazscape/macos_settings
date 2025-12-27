@@ -1,6 +1,7 @@
 [user]
-	# name = Your Name
-	# email = you@example.com
+
+[include]
+    path = ~/.gitconfig.local
 [core]
 	excludesfile = ~/.gitignore_global
 [init]
@@ -8,4 +9,4 @@
 [pull]
 	rebase = false
 [credential]
-	helper = osxkeychain
+	helper = manager

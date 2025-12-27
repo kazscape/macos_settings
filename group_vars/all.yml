@@ -55,5 +55,5 @@ homebrew_cask_apps:
   - raycast
   - session-manager-plugin
   - shottr
-  - visual-studio-code
+
   - vlc

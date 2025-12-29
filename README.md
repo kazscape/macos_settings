@@ -80,6 +80,7 @@ roles:
   # Development Tools
   - git
   - bat
+  - yazi
   - vscode
   - aws
   - docker
@@ -133,6 +134,23 @@ Create `~/.gitconfig.local` for your personal identity:
 
 The git role automatically configures **git-delta** as the default pager with Tokyo Night theme for enhanced diff viewing with syntax highlighting and side-by-side display.
 
+### Yazi
+The yazi role installs the terminal file manager with all required dependencies:
+- **Core**: `yazi` - Fast terminal file manager
+- **Media**: `ffmpegthumbnailer`, `ffmpeg` - Video/audio thumbnails and previews
+- **Archive**: `sevenzip` - Archive file support
+- **Tools**: `jq`, `poppler`, `imagemagick` - JSON, PDF, and image processing
+- **Font**: `font-symbols-only-nerd-font` - Icon support
+
+Shell integration is configured in `common` role (`30-tools.zsh`):
+- `y` function: Opens yazi and changes to the directory on exit
+- `EDITOR=nvim`: Default editor for opening files
+
+Configuration files are symlinked from the role:
+- `~/.config/yazi/yazi.toml` - General settings
+- `~/.config/yazi/keymap.toml` - Keybindings
+- `~/.config/yazi/theme.toml` - Color scheme (can be customized with flavors)
+
 ### AWS
 Manage your credentials in `~/.aws/credentials`. This file is ignored by Ansible and Git.
 The `~/.aws/config` file is managed by the Ansible role (`roles/aws/files/config`).
@@ -151,6 +169,7 @@ The `~/.aws/config` file is managed by the Ansible role (`roles/aws/files/config
     ├── zsh/              # Zsh setup & Powerlevel10k
     ├── git/              # Git configuration with git-delta integration
     ├── bat/              # Bat (better cat) with Tokyo Night theme
+    ├── yazi/             # Yazi file manager with dependencies
     ├── vscode/           # VS Code settings
     ├── aws/              # AWS CLI config
     ├── docker/           # Docker Cask

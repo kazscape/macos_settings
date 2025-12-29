@@ -28,5 +28,27 @@ config.window_background_opacity = 0.8
 config.macos_window_background_blur = 10
 config.audible_bell = "Disabled"
 
+-- Function to switch input source to alphanumeric
+local function switch_to_abc()
+	wezterm.background_child_process({ "/opt/homebrew/bin/im-select", "jp.monokakido.inputmethod.Kawasemi4.Roman" })
+end
+
+-- Switch input source to alphanumeric on startup
+wezterm.on("gui-startup", function()
+	switch_to_abc()
+end)
+
+-- Track previous focus state
+local last_focused = false
+
+-- Switch input source to alphanumeric when window gains focus
+wezterm.on("update-status", function(window, pane)
+	local is_focused = window:is_focused()
+	if is_focused and not last_focused then
+		switch_to_abc()
+	end
+	last_focused = is_focused
+end)
+
 -- and finally, return the configuration to wezterm
 return config

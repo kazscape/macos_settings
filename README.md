@@ -4,10 +4,11 @@ This repository automates the provisioning and configuration of a macOS developm
 
 ## 🚀 Features
 
-- **Role-Based Architecture**: Organized into modular roles (`common`, `zsh`, `git`, `vscode`, `aws`, `docker`, `runtimes`, etc.) for better maintainability.
+- **Role-Based Architecture**: Organized into modular roles (`common`, `zsh`, `git`, `bat`, `vscode`, `aws`, `docker`, `runtimes`, etc.) for better maintainability.
 - **Makefile Support**: Simple commands to check and apply configurations without typing long Ansible commands.
 - **Homebrew Management**: Automates installation of Formulae (CLI tools) and Casks (GUI applications).
 - **Dotfiles Integration**: Configuration files are managed within each Ansible role and symlinked directly to `~/.config/`.
+- **Automated Theme Management**: Automatically downloads themes from external sources (e.g., Tokyo Night theme for bat).
 
 ## 📋 Prerequisites
 
@@ -78,6 +79,7 @@ roles:
   - zsh
   # Development Tools
   - git
+  - bat
   - vscode
   - aws
   - docker
@@ -146,6 +148,7 @@ The `~/.aws/config` file is managed by the Ansible role (`roles/aws/files/config
     ├── common/           # Common CLI tools & basic Zsh configs
     ├── zsh/              # Zsh setup & Powerlevel10k
     ├── git/              # Git configuration
+    ├── bat/              # Bat (better cat) with Tokyo Night theme
     ├── vscode/           # VS Code settings
     ├── aws/              # AWS CLI config
     ├── docker/           # Docker Cask

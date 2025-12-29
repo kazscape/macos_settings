@@ -1,0 +1,125 @@
+name: Check Upstream Updates
+
+on:
+  schedule:
+    # Run every Monday at 9:00 AM JST (00:00 UTC)
+    - cron: '0 0 * * 1'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Fetch upstream repository info
+        id: upstream
+        run: |
+          # Fetch latest commit info from josean-dev/dev-environment-files
+          UPSTREAM_REPO="josean-dev/dev-environment-files"
+          
+          # Get latest commit SHA
+          LATEST_SHA=$(curl -s "https://api.github.com/repos/${UPSTREAM_REPO}/commits/main" | jq -r '.sha')
+          LATEST_DATE=$(curl -s "https://api.github.com/repos/${UPSTREAM_REPO}/commits/main" | jq -r '.commit.committer.date')
+          LATEST_MESSAGE=$(curl -s "https://api.github.com/repos/${UPSTREAM_REPO}/commits/main" | jq -r '.commit.message' | head -n 1)
+          
+          echo "latest_sha=${LATEST_SHA}" >> $GITHUB_OUTPUT
+          echo "latest_date=${LATEST_DATE}" >> $GITHUB_OUTPUT
+          echo "latest_message=${LATEST_MESSAGE}" >> $GITHUB_OUTPUT
+          
+          # Check if tracking file exists
+          if [ -f .upstream-tracking ]; then
+            PREVIOUS_SHA=$(cat .upstream-tracking)
+          else
+            PREVIOUS_SHA=""
+          fi
+          
+          echo "previous_sha=${PREVIOUS_SHA}" >> $GITHUB_OUTPUT
+          
+          # Compare
+          if [ "${LATEST_SHA}" != "${PREVIOUS_SHA}" ] && [ -n "${PREVIOUS_SHA}" ]; then
+            echo "has_updates=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_updates=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Get commit comparison
+        if: steps.upstream.outputs.has_updates == 'true'
+        id: comparison
+        run: |
+          UPSTREAM_REPO="josean-dev/dev-environment-files"
+          PREVIOUS_SHA="${{ steps.upstream.outputs.previous_sha }}"
+          LATEST_SHA="${{ steps.upstream.outputs.latest_sha }}"
+          
+          # Get list of commits between previous and latest
+          COMMITS=$(curl -s "https://api.github.com/repos/${UPSTREAM_REPO}/compare/${PREVIOUS_SHA}...${LATEST_SHA}" | jq -r '.commits[] | "- [\(.sha[0:7])](\(.html_url)) \(.commit.message | split("\n")[0])"')
+          
+          # Save to file for issue body
+          cat > /tmp/commits.txt << 'EOF'
+          $COMMITS
+          EOF
+          
+          echo "commits_count=$(echo "$COMMITS" | wc -l)" >> $GITHUB_OUTPUT
+      
+      - name: Create issue for updates
+        if: steps.upstream.outputs.has_updates == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const commits = fs.readFileSync('/tmp/commits.txt', 'utf8');
+            
+            const issueBody = `## Upstream Updates Detected
+            
+            **Repository:** [josean-dev/dev-environment-files](https://github.com/josean-dev/dev-environment-files)
+            
+            **Previous commit:** \`${{ steps.upstream.outputs.previous_sha }}\`
+            **Latest commit:** \`${{ steps.upstream.outputs.latest_sha }}\`
+            **Latest commit date:** ${{ steps.upstream.outputs.latest_date }}
+            
+            ### Recent Changes
+            
+            ${commits}
+            
+            ### Action Items
+            
+            - [ ] Review the changes in [comparison view](https://github.com/josean-dev/dev-environment-files/compare/${{ steps.upstream.outputs.previous_sha }}...${{ steps.upstream.outputs.latest_sha }})
+            - [ ] Update relevant configuration files if needed
+            - [ ] Test changes locally
+            - [ ] Update \`.upstream-tracking\` file after review
+            
+            ---
+            
+            *This issue was automatically created by the upstream tracking workflow.*
+            `;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[Upstream Update] New changes in josean-dev/dev-environment-files`,
+              body: issueBody,
+              labels: ['upstream-update', 'needs-review']
+            });
+      
+      - name: Update tracking file (first run)
+        if: steps.upstream.outputs.has_updates == 'false' && steps.upstream.outputs.previous_sha == ''
+        run: |
+          echo "${{ steps.upstream.outputs.latest_sha }}" > .upstream-tracking
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .upstream-tracking
+          git commit -m "chore: initialize upstream tracking"
+          git push
+      
+      - name: Log result
+        run: |
+          echo "=== Upstream Check Result ==="
+          echo "Previous SHA: ${{ steps.upstream.outputs.previous_sha }}"
+          echo "Latest SHA: ${{ steps.upstream.outputs.latest_sha }}"
+          echo "Has updates: ${{ steps.upstream.outputs.has_updates }}"
+          echo "Latest commit message: ${{ steps.upstream.outputs.latest_message }}"

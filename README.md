@@ -179,3 +179,16 @@ The `~/.aws/config` file is managed by the Ansible role (`roles/aws/files/config
     └── macos/            # macOS system preferences
 ```
 
+## 🔄 Upstream Tracking
+
+This repository uses configurations inspired by [josean-dev/dev-environment-files](https://github.com/josean-dev/dev-environment-files).
+
+An automated workflow (`.github/workflows/check-upstream-updates.yml`) runs weekly to:
+- Check for updates in the upstream repository
+- Create a GitHub Issue when new changes are detected
+- Provide a comparison link and action items for review
+
+**Manual trigger:** You can also run the workflow manually from the GitHub Actions tab.
+
+**Tracking file:** `.upstream-tracking` contains the last checked commit SHA. Update this file after reviewing and applying upstream changes.
+

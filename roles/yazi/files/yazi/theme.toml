@@ -4,4 +4,4 @@
 
 # Using catppuccin-mocha flavor for consistent dark theme
 [flavor]
-use = "catppuccin-mocha"
+dark = "catppuccin-mocha"

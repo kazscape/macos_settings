@@ -18,6 +18,9 @@ export ZSH_CONFIG_DIR="$XDG_CONFIG_HOME/zsh/conf.d"
 # Ensure PATH includes standard locations
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
+# Completion Initialization
+autoload -Uz compinit && compinit
+
 # ==============================================================================
 # 2. Dynamic Configuration Loading
 # ==============================================================================
@@ -29,11 +32,3 @@ if [ -d "$ZSH_CONFIG_DIR" ]; then
     done
 fi
 
-# ==============================================================================
-# 3. Other Settings
-# ==============================================================================
-# (必要であればここにプロンプト設定や補完の設定などを追記)
-autoload -Uz compinit && compinit
-
-# Added by Antigravity
-# export PATH="/Users/kazuharu.yamauchi/.antigravity/antigravity/bin:$PATH"

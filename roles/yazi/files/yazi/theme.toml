@@ -2,8 +2,6 @@
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/theme.json"
 
-# You can install a flavor (theme) from https://github.com/yazi-rs/flavors
-# Example:
-# [flavor]
-# dark = "catppuccin-mocha"
-# light = "catppuccin-mocha"
+# Using catppuccin-mocha flavor for consistent dark theme
+[flavor]
+use = "catppuccin-mocha"

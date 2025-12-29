@@ -10,3 +10,12 @@
   register: ya_pkg_result
   changed_when: "'Upgrading' in ya_pkg_result.stdout or 'Installing' in ya_pkg_result.stdout"
   failed_when: false
+
+- name: Install yazi catppuccin-mocha flavor
+  shell: |
+    ya pkg add yazi-rs/flavors:catppuccin-mocha
+  args:
+    executable: /bin/zsh
+  register: ya_flavor_result
+  changed_when: "'Upgrading' in ya_flavor_result.stdout or 'Installing' in ya_flavor_result.stdout"
+  failed_when: false

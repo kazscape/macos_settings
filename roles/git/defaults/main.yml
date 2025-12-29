@@ -3,6 +3,7 @@ role_vars:
   packages:
     - git
     - gh
+    - git-delta
     - git-filter-repo
     - git-gui
   

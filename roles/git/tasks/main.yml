@@ -1,4 +1,16 @@
 ---
+- name: Ensure delta themes directory exists
+  file:
+    path: "{{ role_path }}/files/delta/themes"
+    state: directory
+    mode: "0755"
+
+- name: Download tokyonight_night theme for delta
+  get_url:
+    url: https://raw.githubusercontent.com/folke/tokyonight.nvim/main/extras/sublime/tokyonight_night.tmTheme
+    dest: "{{ role_path }}/files/delta/themes/tokyonight_night.tmTheme"
+    mode: "0644"
+
 - import_tasks: ../../common/tasks/standard_role.yml
 
 - name: Install cask applications
@@ -6,3 +18,20 @@
     name: "{{ role_vars.cask_apps | default([]) }}"
     state: present
   when: role_vars.cask_apps is defined and role_vars.cask_apps | length > 0
+
+- name: Ensure delta themes directory exists in user config
+  file:
+    path: "{{ ansible_facts['user_dir'] }}/.config/delta/themes"
+    state: directory
+    mode: "0755"
+
+- name: Symlink delta theme file
+  file:
+    src: "{{ role_path }}/files/delta/themes/tokyonight_night.tmTheme"
+    dest: "{{ ansible_facts['user_dir'] }}/.config/delta/themes/tokyonight_night.tmTheme"
+    state: link
+    force: yes
+
+- name: Rebuild delta cache to recognize custom themes
+  command: delta --generate-completion bash > /dev/null 2>&1 || true
+  changed_when: false

@@ -3,3 +3,4 @@
 
 # Ignore downloaded theme files (managed by Ansible)
 roles/bat/files/bat/themes/*.tmTheme
+roles/git/files/delta/themes/*.tmTheme

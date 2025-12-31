@@ -36,6 +36,7 @@ homebrew_cask_apps:
   - clickup
   - cron
   - dbeaver-community
+  - discord
   - intellij-idea
   - keyboardcleantool
   - keyclu

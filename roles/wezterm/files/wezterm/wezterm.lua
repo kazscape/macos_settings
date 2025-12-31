@@ -6,16 +6,49 @@ local config = wezterm.config_builder()
 
 -- This is where you actually apply your config choices
 
+--config.colors = {
+--	foreground = "#CBE0F0",
+--	background = "#011423",
+--	cursor_bg = "#47FF9C",
+--	cursor_border = "#47FF9C",
+--	cursor_fg = "#011423",
+--	selection_bg = "#033259",
+--	selection_fg = "#CBE0F0",
+--	ansi = { "#214969", "#E52E2E", "#44FFB1", "#FFE073", "#0FC5ED", "#a277ff", "#24EAF7", "#24EAF7" },
+--	brights = { "#214969", "#E52E2E", "#44FFB1", "#FFE073", "#A277FF", "#a277ff", "#24EAF7", "#24EAF7" },
+--}
 config.colors = {
-	foreground = "#CBE0F0",
-	background = "#011423",
-	cursor_bg = "#47FF9C",
-	cursor_border = "#47FF9C",
-	cursor_fg = "#011423",
-	selection_bg = "#033259",
-	selection_fg = "#CBE0F0",
-	ansi = { "#214969", "#E52E2E", "#44FFB1", "#FFE073", "#0FC5ED", "#a277ff", "#24EAF7", "#24EAF7" },
-	brights = { "#214969", "#E52E2E", "#44FFB1", "#FFE073", "#A277FF", "#a277ff", "#24EAF7", "#24EAF7" },
+	foreground = "#D1D5DB",
+	background = "#0F1115",
+
+	cursor_bg = "#AEB4BA",
+	cursor_border = "#AEB4BA",
+	cursor_fg = "#0F1115",
+
+	selection_bg = "#2A2F36",
+	selection_fg = "#D1D5DB",
+
+	ansi = {
+		"#2B3036", -- black
+		"#C05C5C", -- red
+		"#8FB573", -- green
+		"#C9A86A", -- yellow
+		"#7FA6C4", -- blue
+		"#A68ACB", -- magenta
+		"#78BFC4", -- cyan
+		"#D1D5DB", -- white
+	},
+
+	brights = {
+		"#3A4047", -- bright black
+		"#D07070",
+		"#A3C98A",
+		"#DDBE84",
+		"#94B8D6",
+		"#B59EDC",
+		"#8ED3D6",
+		"#E3E7EB",
+	},
 }
 
 config.font = wezterm.font("PlemolJP Console NF")

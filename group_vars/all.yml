@@ -12,10 +12,8 @@ dotfiles_repos:
 # --- Formulae (CLI Tools) ---
 homebrew_packages:
   - 1password-cli
-
   - ffmpeg
   - ffmpegthumbnailer
-
   - httpie
   - imagemagick
   - im-select
@@ -35,12 +33,9 @@ homebrew_cask_apps:
   - bartender
   - brave-browser
   - chatgpt-atlas
-
   - clickup
   - cron
   - dbeaver-community
-
-
   - intellij-idea
   - keyboardcleantool
   - keyclu
@@ -55,5 +50,4 @@ homebrew_cask_apps:
   - raycast
   - session-manager-plugin
   - shottr
-
   - vlc

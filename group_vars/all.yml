@@ -32,7 +32,6 @@ homebrew_cask_apps:
   - appcleaner
   - bartender
   - brave-browser
-  - chatgpt-atlas
   - clickup
   - cron
   - dbeaver-community
@@ -48,6 +47,7 @@ homebrew_cask_apps:
   - pgadmin4
   - pycharm-ce
   - postman
+  - raindropio
   - raycast
   - session-manager-plugin
   - shottr

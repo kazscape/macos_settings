@@ -1,4 +1,6 @@
 [user]
+	name = kazscape
+	email = 3782734+kazscape@users.noreply.github.com
 
 [include]
     path = ~/.gitconfig.local

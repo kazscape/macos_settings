@@ -20,7 +20,6 @@
     - wezterm
     - tmux
     - aerospace
-    - karabiner
 
     # 3. Global Packages
     #    (Install global CLI tools and GUI apps from all.yml)

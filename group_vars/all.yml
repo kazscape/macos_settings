@@ -1,4 +1,8 @@
 ---
+# --- Hardware Detection ---
+# is_macbook_pro フラグは common role の detect_hardware.yml で自動設定されます
+# この変数を使用して、MacBook Pro専用のツールやパッケージを条件付きでインストールできます
+
 # --- Dotfiles Configuration ---
 # Stow方式（旧方式）は廃止したため、ここは空、または外部リポジトリ用として残すのみにします
 dotfiles_repos:
@@ -52,3 +56,12 @@ homebrew_cask_apps:
   - session-manager-plugin
   - shottr
   - vlc
+
+# --- MacBook Pro Specific Packages ---
+# MacBook Pro の内蔵キーボードを使用する際に有用なツール
+# is_macbook_pro が True の場合のみインストールされます
+homebrew_macbook_cask_apps:
+  - karabiner-elements
+
+homebrew_macbook_packages:
+  - kanata

@@ -1,0 +1,14 @@
+---
+# MacBook Proかどうかを判定するタスク
+- name: Get Mac hardware model name
+  ansible.builtin.shell: "system_profiler SPHardwareDataType | grep 'Model Name' | awk -F': ' '{print $2}'"
+  register: mac_model_name
+  changed_when: false
+
+- name: Set is_macbook_pro flag
+  ansible.builtin.set_fact:
+    is_macbook_pro: "{{ 'MacBook Pro' in mac_model_name.stdout }}"
+
+- name: Display hardware detection result
+  ansible.builtin.debug:
+    msg: "Hardware detected: {{ mac_model_name.stdout }} | Is MacBook Pro: {{ is_macbook_pro }}"

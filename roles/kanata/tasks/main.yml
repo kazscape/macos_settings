@@ -1,0 +1,73 @@
+---
+# Kanata role tasks
+# Only runs on MacBook Pro (is_macbook_pro == true)
+
+- name: Skip kanata role if not MacBook Pro
+  ansible.builtin.debug:
+    msg: "Skipping kanata role - not a MacBook Pro"
+  when: not is_macbook_pro | default(false)
+
+- name: Run kanata setup tasks
+  when: is_macbook_pro | default(false)
+  block:
+    # 1. Install kanata via Homebrew
+    - name: Install kanata
+      community.general.homebrew:
+        name: "{{ kanata_package }}"
+        state: present
+
+    # 2. Stop kanata if running (before fixing directory permissions)
+    - name: Stop kanata process
+      ansible.builtin.shell: "sudo pkill -f kanata || true"
+      changed_when: false
+      become: true
+
+    # 3. Remove root-owned config directory if it exists
+    - name: Check if kanata config directory exists with wrong permissions
+      ansible.builtin.stat:
+        path: "{{ kanata_config_dir }}"
+      register: kanata_dir_stat
+
+    - name: Remove root-owned kanata config directory
+      ansible.builtin.file:
+        path: "{{ kanata_config_dir }}"
+        state: absent
+      become: true
+      when: kanata_dir_stat.stat.exists and kanata_dir_stat.stat.uid == 0
+
+    # 4. Create config directory with correct permissions
+    - name: Create kanata config directory
+      ansible.builtin.file:
+        path: "{{ kanata_config_dir }}"
+        state: directory
+        mode: "0755"
+
+    # 5. Deploy configuration file
+    - name: Copy kanata configuration file
+      ansible.builtin.copy:
+        src: kanata/kanata.kbd
+        dest: "{{ kanata_config_file }}"
+        mode: "0644"
+
+    # 6. Get kanata binary path
+    - name: Get kanata binary path
+      ansible.builtin.command: which kanata
+      register: kanata_bin_path
+      changed_when: false
+
+    # 7. Create LaunchDaemon plist
+    - name: Create kanata LaunchDaemon plist
+      ansible.builtin.template:
+        src: kanata.plist.j2
+        dest: "{{ kanata_launchd_plist }}"
+        mode: "0644"
+      become: true
+      notify: Reload kanata LaunchDaemon
+
+    # 8. Load and start LaunchDaemon
+    - name: Load kanata LaunchDaemon
+      ansible.builtin.shell: "launchctl load -w {{ kanata_launchd_plist }}"
+      become: true
+      register: launchd_load
+      changed_when: launchd_load.rc == 0
+      failed_when: false

@@ -21,6 +21,10 @@
     - tmux
     - aerospace
 
+    # 2.1. MacBook Pro Specific Tools
+    #      (Keyboard customization for MacBook Pro internal keyboard)
+    - kanata
+
     # 3. Global Packages
     #    (Install global CLI tools and GUI apps from all.yml)
     - { role: homebrew, tags: ["brew"] }

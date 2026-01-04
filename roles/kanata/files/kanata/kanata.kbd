@@ -1,0 +1,10 @@
+;; Kanata Configuration
+;; Basic key remapping for MacBook Pro
+
+(defsrc
+  caps
+)
+
+(deflayer base
+  lctl
+)

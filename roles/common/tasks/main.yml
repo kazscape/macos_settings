@@ -1,7 +1,11 @@
 ---
+# 1. Hardware detection (MacBook Pro check)
+- import_tasks: detect_hardware.yml
+
+# 2. Standard role setup
 - import_tasks: standard_role.yml
 
-# 2. Install fzf-git.sh
+# 3. Install fzf-git.sh
 - name: Install fzf-git.sh
   git:
     repo: "https://github.com/junegunn/fzf-git.sh.git"

@@ -80,6 +80,18 @@ _(Equivalent to: `ansible-playbook local.yml --skip-tags "brew"`)_
 
 You can customize the installation by editing the variables and playbook files.
 
+### Hardware-Specific Configurations
+
+The playbook automatically detects your Mac hardware model and sets the `is_macbook_pro` flag. This allows for conditional installation of MacBook Pro-specific tools like keyboard customization utilities.
+
+**MacBook Pro-specific packages** are defined in `group_vars/all.yml`:
+- **`homebrew_macbook_cask_apps`**: GUI apps for MacBook Pro (e.g., `karabiner-elements`)
+- **`homebrew_macbook_packages`**: CLI tools for MacBook Pro (e.g., `kanata`)
+
+These packages are only installed when `is_macbook_pro` is `True`.
+
+See [docs/macbook.md](docs/macbook.md) for detailed MacBook Pro-specific setup instructions.
+
 ### Managing Packages
 
 To add or remove software, edit **`group_vars/all.yml`**:

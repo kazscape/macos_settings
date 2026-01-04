@@ -1,0 +1,9 @@
+---
+# Kanata role handlers
+
+- name: Reload kanata LaunchDaemon
+  ansible.builtin.shell: |
+    launchctl unload {{ kanata_launchd_plist }} 2>/dev/null || true
+    launchctl load -w {{ kanata_launchd_plist }}
+  become: true
+  listen: "Reload kanata LaunchDaemon"

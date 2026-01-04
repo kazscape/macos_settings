@@ -63,4 +63,5 @@ homebrew_cask_apps:
 homebrew_macbook_cask_apps:
   - karabiner-elements
 
-homebrew_macbook_packages: []
+homebrew_macbook_packages:
+  - kanata

@@ -24,6 +24,7 @@
     # 2.1. MacBook Pro Specific Tools
     #      (Keyboard customization for MacBook Pro internal keyboard)
     - karabiner
+    - kanata
 
     # 3. Global Packages
     #    (Install global CLI tools and GUI apps from all.yml)

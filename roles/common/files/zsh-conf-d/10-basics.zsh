@@ -1,3 +1,6 @@
+# --- PATH Setup ---
+export PATH="$HOME/.local/bin:$PATH"
+
 # --- Aliases ---
 alias reload-zsh="source ~/.zshrc"
 # alias edit-zsh="nvim ~/.zshrc" 

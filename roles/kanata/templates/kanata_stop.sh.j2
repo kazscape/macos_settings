@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Kanata stop helper script
+# Stops all running kanata processes
+
+set -e
+
+echo "Stopping Kanata..."
+
+# Stop kanata processes
+if pgrep -f "kanata" > /dev/null; then
+    sudo pkill -f "kanata"
+    echo "✅ Kanata stopped"
+else
+    echo "ℹ️  Kanata is not running"
+fi

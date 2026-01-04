@@ -1,0 +1,13 @@
+;; Kanata Configuration
+;; Basic key remapping for MacBook Pro
+;; 
+;; This is a minimal safe configuration that only remaps CapsLock to Ctrl
+;; Test this configuration thoroughly before adding more complex mappings
+
+(defsrc
+  caps
+)
+
+(deflayer base
+  lctl
+)

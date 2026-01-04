@@ -1,0 +1,16 @@
+---
+# Kanata role defaults
+
+# Package name
+kanata_package: kanata
+
+# Configuration paths
+kanata_config_dir: "{{ ansible_facts['user_dir'] }}/.config/kanata"
+kanata_config_file: "{{ kanata_config_dir }}/kanata.kbd"
+
+# Scripts directory
+kanata_scripts_dir: "{{ ansible_facts['user_dir'] }}/.local/bin"
+
+# LaunchDaemon settings (for reference only - not auto-created)
+kanata_launchd_label: "com.{{ ansible_facts['user_id'] }}.kanata"
+kanata_launchd_plist: "/Library/LaunchDaemons/{{ kanata_launchd_label }}.plist"

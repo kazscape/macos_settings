@@ -1,0 +1,86 @@
+---
+# Kanata role tasks
+# Only runs on MacBook Pro (is_macbook_pro == true)
+# Kanata works with Karabiner-Elements DriverKit but requires manual permission setup
+
+- name: Skip kanata role if not MacBook Pro
+  ansible.builtin.debug:
+    msg: "Skipping kanata role - not a MacBook Pro"
+  when: not is_macbook_pro | default(false)
+
+- name: Run kanata setup tasks
+  when: is_macbook_pro | default(false)
+  block:
+    # 1. Install kanata via Homebrew
+    - name: Install kanata
+      community.general.homebrew:
+        name: "{{ kanata_package }}"
+        state: present
+
+    # 2. Create config directory with correct permissions
+    - name: Create kanata config directory
+      ansible.builtin.file:
+        path: "{{ kanata_config_dir }}"
+        state: directory
+        mode: "0755"
+
+    # 3. Deploy configuration file
+    - name: Copy kanata configuration file
+      ansible.builtin.copy:
+        src: kanata/kanata.kbd
+        dest: "{{ kanata_config_file }}"
+        mode: "0644"
+
+    # 4. Ensure scripts directory exists
+    - name: Create scripts directory
+      ansible.builtin.file:
+        path: "{{ kanata_scripts_dir }}"
+        state: directory
+        mode: "0755"
+
+    # 5. Create helper script for starting kanata
+    - name: Create kanata start script
+      ansible.builtin.template:
+        src: kanata_start.sh.j2
+        dest: "{{ kanata_scripts_dir }}/kanata-start"
+        mode: "0755"
+
+    # 6. Create helper script for stopping kanata
+    - name: Create kanata stop script
+      ansible.builtin.template:
+        src: kanata_stop.sh.j2
+        dest: "{{ kanata_scripts_dir }}/kanata-stop"
+        mode: "0755"
+
+    # 7. Display setup instructions
+    - name: Display kanata setup instructions
+      ansible.builtin.debug:
+        msg: |
+          Kanata has been installed and configured!
+          
+          ⚠️  IMPORTANT - Manual Steps Required:
+          
+          1. Grant Input Monitoring permission:
+             - System Settings > Privacy & Security > Input Monitoring
+             - Add: /opt/homebrew/bin/kanata
+             - Enable the checkbox
+          
+          2. Test kanata manually BEFORE enabling auto-start:
+             $ kanata-start
+             
+             Test CapsLock key (should work as Ctrl)
+             
+             If working correctly:
+             $ kanata-stop
+          
+          3. If testing is successful, set up auto-start:
+             See: docs/macbook.md for LaunchDaemon setup
+          
+          Helper commands:
+          - kanata-start: Start kanata in foreground (for testing)
+          - kanata-stop: Stop kanata
+          
+          Config file: {{ kanata_config_file }}
+          
+          ⚠️  Note: Karabiner-Elements and Kanata can coexist, but don't run
+          Karabiner-Elements' main app while Kanata is active.

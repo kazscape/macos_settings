@@ -113,27 +113,26 @@ sudo pkill kanata
 
 ### 自動起動の設定
 
-Kanataを起動時に自動実行させる場合は、以下の手順でLaunchDaemonを作成します：
+#### 1. LaunchDaemonの作成
+
+Ansible実行後に表示される手順に従って、LaunchDaemonを作成します：
 
 ```bash
-# kanataのバイナリパスを取得
-KANATA_BIN=$(which kanata)
-USER_NAME="kazuharu.yamauchi"
-CONFIG_PATH="/Users/${USER_NAME}/.config/kanata/kanata.kbd"
+# Ansibleで自動生成された手順を使用
+# または手動で以下のコマンドを実行：
 
-# LaunchDaemon plistファイルを作成
-sudo tee /Library/LaunchDaemons/com.kazuharu.kanata.plist <<EOF
+sudo tee /Library/LaunchDaemons/com.kazuharu.yamauchi.kanata.plist <<'EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.kazuharu.kanata</string>
+    <string>com.kazuharu.yamauchi.kanata</string>
     <key>ProgramArguments</key>
     <array>
-        <string>$KANATA_BIN</string>
+        <string>/opt/homebrew/bin/kanata</string>
         <string>--cfg</string>
-        <string>$CONFIG_PATH</string>
+        <string>/Users/kazuharu.yamauchi/.config/kanata/kanata.kbd</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
@@ -148,17 +147,44 @@ sudo tee /Library/LaunchDaemons/com.kazuharu.kanata.plist <<EOF
 EOF
 
 # LaunchDaemonを読み込んで起動
-sudo launchctl load /Library/LaunchDaemons/com.kazuharu.kanata.plist
+sudo launchctl load -w /Library/LaunchDaemons/com.kazuharu.yamauchi.kanata.plist
+```
+
+**セットアップ完了: 2026-01-05**
+
+#### 2. 入力監視権限の付与（必須）
+
+Kanataがキーボードを制御するには、システム設定で入力監視権限を付与する必要があります：
+
+1. **システム設定を開く**
+2. **プライバシーとセキュリティ** > **入力監視** を選択
+3. **kanata** または関連プロセスを許可リストに追加
+4. 変更を反映させるため、Kanataを再起動：
+   ```bash
+   sudo launchctl unload /Library/LaunchDaemons/com.kazuharu.yamauchi.kanata.plist
+   sudo launchctl load -w /Library/LaunchDaemons/com.kazuharu.yamauchi.kanata.plist
+   ```
+
+#### 3. 動作確認
+
+```bash
+# Kanataが実行中か確認
+ps aux | grep kanata | grep -v grep
+
+# ログを確認（エラーがないことを確認）
+tail -f /tmp/kanata.err.log
+
+# CapsLockキーを押してCtrlとして動作することを確認
 ```
 
 **自動起動の停止・削除:**
 
 ```bash
 # サービスを停止してアンロード
-sudo launchctl unload /Library/LaunchDaemons/com.kazuharu.kanata.plist
+sudo launchctl unload /Library/LaunchDaemons/com.kazuharu.yamauchi.kanata.plist
 
 # plistファイルを削除（必要に応じて）
-sudo rm /Library/LaunchDaemons/com.kazuharu.kanata.plist
+sudo rm /Library/LaunchDaemons/com.kazuharu.yamauchi.kanata.plist
 ```
 
 ## その他のMacBook Pro専用ツール

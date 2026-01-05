@@ -105,10 +105,21 @@ Two keyboard customization tools are automatically configured for MacBook Pro:
 - Configured to apply **only to MacBook Pro built-in keyboard**
 - External keyboards (e.g., Corne with VIA/Vial) remain unaffected
 - Auto-starts via LaunchDaemon after system boot
-- Default mapping: CapsLock → Ctrl
+- Default mapping: CapsLock → Ctrl, Home Row Mods (GACS layout)
 - Helper commands: `kanata-start` (foreground testing), `kanata-stop`
 - Configuration: `~/.config/kanata/kanata.kbd`
 - Logs: `/tmp/kanata.out.log`, `/tmp/kanata.err.log`
+
+**Debugging & Performance Monitoring**:
+To analyze home row modifier behavior and check for accidental activations:
+```bash
+# Check for layer switches (modifier activations)
+grep "layer-switch" /tmp/kanata.out.log
+
+# Detailed analysis with timestamps
+grep -E "layer-switch|Processing|release|press" /tmp/kanata.out.log | tail -n 100
+```
+Frequent unintended layer switches indicate timing adjustments may be needed in `tap-time` or `hold-time` variables.
 
 **Manual Steps Required**:
 After running the playbook, grant permissions in System Settings:

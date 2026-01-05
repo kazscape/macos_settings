@@ -1,14 +1,26 @@
 ;; Kanata Configuration
-;; Basic key remapping for MacBook Pro
+;; MacBook Pro Internal Keyboard with Homerow Mods (GACS Layout)
 ;; 
-;; This is a minimal safe configuration that only remaps CapsLock to Ctrl
-;; Test this configuration thoroughly before adding more complex mappings
+;; Features:
+;; - CapsLock → Ctrl
+;; - Home Row Mods (GACS): A=GUI, S=Alt, D=Ctrl, F=Shift | J=Shift, K=Ctrl, L=Alt, ;=GUI
+;; - tap-hold-tap-keys: Optimized for fast typing, prevents accidental modifier triggers
 
 ;; Configuration section
 ;; Only apply to MacBook Pro built-in keyboard, exclude external keyboards (e.g., Corne)
 (defcfg
-  ;; Process unmapped keys: false means unmapped keys are not processed
-  process-unmapped-keys false
+  ;; Process unmapped keys: yes allows better home row mods behavior
+  process-unmapped-keys yes
+  
+  ;; Disable hardware key repeat to prevent interference with tap-hold
+  allow-hardware-repeat false
+  
+  ;; Enable debug logging
+  log-layer-changes yes
+  
+  ;; Additional logging for debugging
+  ;; Uncomment to enable more detailed logging:
+  ;; delegate-to-first-layer yes  ;; Log when keys are delegated
   
   ;; macOS device name filtering
   ;; Include only Apple Internal Keyboard (MacBook Pro built-in keyboard)
@@ -18,10 +30,56 @@
   )
 )
 
-(defsrc
-  caps
+;; Variables for tap-hold timing
+;; Adjust these values based on your typing speed
+(defvar
+  ;; Tap time: Maximum time (ms) for a key press to be considered a tap
+  tap-time 200
+  ;; Hold time: Minimum time (ms) before hold action activates
+  ;; Shorter value = faster hold activation
+  hold-time 200
+  
+  ;; Keys on the left half of the keyboard
+  ;; Used to trigger early tap when typing with the same hand
+  ;; Excludes home row mod keys themselves (a s d f) to allow hold activation
+  left-hand-keys (
+    q w e r t
+    g
+    z x c v b
+  )
+  
+  ;; Keys on the right half of the keyboard
+  ;; Excludes home row mod keys themselves (j k l ;) to allow hold activation
+  right-hand-keys (
+    y u i o p
+    h
+    n m , . /
+  )
 )
 
+;; Source key definitions (all keys we want to remap)
+(defsrc
+  caps  a    s    d    f    j    k    l    ;
+)
+
+;; Aliases for home row mods with basic tap-hold
+;; Simple and reliable, good starting point
+(defalias
+  ;; Left hand home row mods (GACS)
+  ;; Using tap-hold-release-keys for fast typing without accidental modifiers
+  a (tap-hold-release-keys $tap-time $hold-time a lmet $left-hand-keys)   ;; A: tap=a, hold=GUI/Cmd
+  s (tap-hold-release-keys $tap-time $hold-time s lalt $left-hand-keys)   ;; S: tap=s, hold=Alt
+  d (tap-hold-release-keys $tap-time $hold-time d lctl $left-hand-keys)   ;; D: tap=d, hold=Ctrl
+  f (tap-hold-release-keys $tap-time $hold-time f lsft $left-hand-keys)   ;; F: tap=f, hold=Shift
+  
+  ;; Right hand home row mods (GACS mirrored)
+  j (tap-hold-release-keys $tap-time $hold-time j rsft $right-hand-keys)  ;; J: tap=j, hold=Shift
+  k (tap-hold-release-keys $tap-time $hold-time k rctl $right-hand-keys)  ;; K: tap=k, hold=Ctrl
+  l (tap-hold-release-keys $tap-time $hold-time l ralt $right-hand-keys)  ;; L: tap=l, hold=Alt
+  ; (tap-hold-release-keys $tap-time $hold-time ; rmet $right-hand-keys)  ;; ;: tap=;, hold=GUI/Cmd
+)
+
+;; Base layer with home row mods
 (deflayer base
-  lctl
+  lctl  @a   @s   @d   @f   @j   @k   @l   @;
 )

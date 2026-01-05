@@ -4,6 +4,20 @@
 ;; This is a minimal safe configuration that only remaps CapsLock to Ctrl
 ;; Test this configuration thoroughly before adding more complex mappings
 
+;; Configuration section
+;; Only apply to MacBook Pro built-in keyboard, exclude external keyboards (e.g., Corne)
+(defcfg
+  ;; Process unmapped keys: false means unmapped keys are not processed
+  process-unmapped-keys false
+  
+  ;; macOS device name filtering
+  ;; Include only Apple Internal Keyboard (MacBook Pro built-in keyboard)
+  ;; This prevents Kanata from intercepting external keyboards like Corne with VIA/Vial
+  macos-dev-names-include (
+    "Apple Internal Keyboard / Trackpad"
+  )
+)
+
 (defsrc
   caps
 )

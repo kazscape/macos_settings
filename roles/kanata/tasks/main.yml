@@ -60,10 +60,19 @@
           
           ⚠️  IMPORTANT - Manual Steps Required:
           
-          1. Grant Input Monitoring permission:
-             - System Settings > Privacy & Security > Input Monitoring
-             - Add: /opt/homebrew/bin/kanata
-             - Enable the checkbox
+          1. Grant required permissions in System Settings:
+             
+             a) Input Monitoring (required to read keyboard input):
+                - System Settings > Privacy & Security > Input Monitoring
+                - Click the '+' button
+                - Navigate to: /opt/homebrew/bin/kanata
+                - Add and enable the checkbox
+             
+             b) Accessibility (required to send keyboard events):
+                - System Settings > Privacy & Security > Accessibility
+                - Click the '+' button
+                - Navigate to: /opt/homebrew/bin/kanata
+                - Add and enable the checkbox
           
           2. Test kanata manually BEFORE enabling auto-start:
              $ kanata-start

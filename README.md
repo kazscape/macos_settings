@@ -90,6 +90,32 @@ The playbook automatically detects your Mac hardware model and sets the `is_macb
 
 These packages are only installed when `is_macbook_pro` is `True`.
 
+#### Keyboard Customization (MacBook Pro only)
+
+Two keyboard customization tools are automatically configured for MacBook Pro:
+
+**Karabiner-Elements**:
+- Provides DriverKit virtual keyboard driver (required by Kanata)
+- System extension that enables low-level keyboard input capture
+- Automatically installed but main application doesn't auto-start
+- Can be used standalone for simple key remapping if needed
+
+**Kanata**:
+- Advanced keyboard remapping tool with Lisp-like configuration
+- Configured to apply **only to MacBook Pro built-in keyboard**
+- External keyboards (e.g., Corne with VIA/Vial) remain unaffected
+- Auto-starts via LaunchDaemon after system boot
+- Default mapping: CapsLock → Ctrl
+- Helper commands: `kanata-start` (foreground testing), `kanata-stop`
+- Configuration: `~/.config/kanata/kanata.kbd`
+- Logs: `/tmp/kanata.out.log`, `/tmp/kanata.err.log`
+
+**Manual Steps Required**:
+After running the playbook, grant permissions in System Settings:
+1. **Privacy & Security** > **Input Monitoring** - Add `/opt/homebrew/bin/kanata`
+2. **Privacy & Security** > **Accessibility** - Add `/opt/homebrew/bin/kanata`
+3. Restart LaunchDaemon: `sudo launchctl unload /Library/LaunchDaemons/com.<user>.kanata.plist && sudo launchctl load -w /Library/LaunchDaemons/com.<user>.kanata.plist`
+
 See [docs/macbook.md](docs/macbook.md) for detailed MacBook Pro-specific setup instructions.
 
 ### Managing Packages
@@ -117,6 +143,11 @@ roles:
   - runtimes
   - nvim
   - wezterm
+  - tmux
+  - aerospace
+  # MacBook Pro specific (conditional on is_macbook_pro)
+  - karabiner
+  - kanata
 ```
 
 ## 📏 Zsh Configuration Convention
@@ -206,6 +237,10 @@ The `~/.aws/config` file is managed by the Ansible role (`roles/aws/files/config
     ├── runtimes/         # Language Runtimes (Python, Node, Java)
     ├── nvim/             # Neovim setup
     ├── wezterm/          # WezTerm setup
+    ├── tmux/             # Tmux configuration
+    ├── aerospace/        # AeroSpace window manager
+    ├── karabiner/        # Karabiner-Elements (MacBook Pro only)
+    ├── kanata/           # Kanata keyboard remapper (MacBook Pro only)
     └── macos/            # macOS system preferences
 ```
 

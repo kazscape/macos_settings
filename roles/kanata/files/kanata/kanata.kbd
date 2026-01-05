@@ -60,6 +60,9 @@
 ;; Source key definitions (all keys we want to remap)
 (defsrc
   caps  a    s    d    f    j    k    l    ;
+  brightnessdown brightnessup
+  previoussong playpause nextsong
+  mute volumedown volumeup
 )
 
 ;; Aliases for home row mods with basic tap-hold
@@ -79,7 +82,10 @@
   ; (tap-hold-release-keys $tap-time $hold-time ; rmet $right-hand-keys)  ;; ;: tap=;, hold=GUI/Cmd
 )
 
-;; Base layer with home row mods
-(deflayer base
+;;lctl  @a   @s   @d   @f   @j   @k   @l   @;
+  brightnessdown brightnessup
+  previoussong playpause nextsong
+  mute volumedown volumeup
+  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
   lctl  @a   @s   @d   @f   @j   @k   @l   @;
 )

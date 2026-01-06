@@ -94,7 +94,7 @@
     _       _       _       _       _       _       _       _       _       _       _       _       _       _
     @hyper  @a      @s      @d      @f      _       _       @j      @k      @l      @;      _       _
     _       _       _       _       _       _       _       _       _       _       _       _
-    @funct  _       _       _               _                       _       _
+    @funct  _       _       esc             _                       ret     _
 )
 
 ;; --- nomods layer ---
@@ -104,7 +104,7 @@
     _       _       _       _       _       _       _       _       _       _       _       _       _       _
     @hyper  a       s       d       f       _       _       j       k       l       ;       _       _
     _       _       _       _       _       _       _       _       _       _       _       _
-    @funct  _       _       _               _                       _       _
+    @funct  _       _       esc             _                       ret     _
 )
 
 (deffakekeys
@@ -118,7 +118,7 @@
     _       _       _       _       _       @appsw  _       _       _       _       _       _       _       _
     @hyper  @a      @s      @d      @f      _       lft     down    up      rght    _       _       _
     _       _       _       _       _       _       _       _       _       _       _       _
-    @funct  _       _       _               _                       _       _
+    @funct  _       _       esc             _                       ret     _
 )
 
 ;; --- Function layer---
@@ -128,5 +128,5 @@
     _       _       _       _       _       _       _       _       _       _       _       _       _       _
     @hyper  @a      @s      @d      @f      _       lft     down    up      rght    _       _       _
     _       _       _       _       _       _       _       _       _       _       _       _
-    @funct  _       _       _               _                       _       _
+    @funct  _       _       esc             _                       ret     _
 )

@@ -13,10 +13,11 @@
   process-unmapped-keys yes
 
   ;; macOS device name filtering
-  ;; Include only Apple Internal Keyboard (MacBook Pro built-in keyboard)
+  ;; Include only Apple Internal Keyboard (MacBook Pro built-in keyboard) and HHKB Studio
   ;; This prevents Kanata from intercepting external keyboards like Corne with VIA/Vial
   macos-dev-names-include (
     "Apple Internal Keyboard / Trackpad"
+    "HHKB-Studio1"
   )
 )
 
@@ -78,8 +79,8 @@
   l (tap-hold-release-keys $tap-time $hold-time (multi l @tap) ralt $right-hand-keys)  ;; L: tap=l, hold=Alt
   ; (tap-hold-release-keys $tap-time $hold-time (multi ; @tap) rmet $right-hand-keys)  ;; ;: tap=;, hold=GUI/Cmd
 
-  funct (layer-while-held function)      ;; タップ→ esc, 長押し→Hyperレイヤー
-  ;; hyper (layer-while-held hyper)      ;; タップ→ esc, 長押し→Hyperレイヤー
+  hyper (layer-while-held hyper)
+  funct (layer-while-held function)
   ;; funct (tap-dance $double-tap-time (lsft (layer-while-held function)))   ;; タップor長押し→Left shift, 2回タップ+長押し→Functionレイヤー
 )
 
@@ -88,7 +89,7 @@
     _       _       _       _       _       _       _       _       _       _       _       _       _
             _       _       _       _       _       _       _       _       _       _       _       _       _
     _       _       _       _       _       _       _       _       _       _       _       _       _       _
-    lctl    @a      @s      @d      @f      _       _       @j      @k      @l      @;      _       _
+    @hyper  @a      @s      @d      @f      _       _       @j      @k      @l      @;      _       _
     _       _       _       _       _       _       _       _       _       _       _       _
     @funct  _       _       _               _                       _       _
 )
@@ -98,7 +99,7 @@
     _       _       _       _       _       _       _       _       _       _       _       _       _
             _       _       _       _       _       _       _       _       _       _       _       _       _
     _       _       _       _       _       _       _       _       _       _       _       _       _       _
-    lctl    a       s       d       f       _       _       j       k       l       ;       _       _
+    @hyper  a       s       d       f       _       _       j       k       l       ;       _       _
     _       _       _       _       _       _       _       _       _       _       _       _
     @funct  _       _       _               _                       _       _
 )
@@ -107,12 +108,22 @@
     to-base (layer-switch base)
 )
 
+;; --- Hyper layer---
+(deflayer hyper
+    _       _       _       _       _       _       _       _       _       _       _       _       _
+            _       _       _       _       _       _       _       _       _       _       _       _       _
+    _       _       _       _       _       _       _       _       _       _       _       _       _       _
+    @hyper  @a      @s      @d      @f      _       lft     down    up      rght    _       _       _
+    _       _       _       _       _       _       _       _       _       _       _       _
+    @funct  _       _       _               _                       _       _
+)
+
 ;; --- Function layer---
 (deflayer function
     _       brdn    brup    mctl    sls     dtn     dnd     prev    pp      next    mute    voldwn  volu
             f1      f2      f3      f4      f5      f6      f7      f8      f9      f10     f11     f12     _
     _       _       _       _       _       _       _       _       _       _       _       _       _       _
-    lctl    _       _       _       _       _       lft     down    up      rght    _       _       _
+    @hyper  _       _       _       _       _       _       _       _       _       _       _       _
     _       _       _       _       _       _       _       _       _       _       _       _
     @funct  _       _       _               _                       _       _
 )

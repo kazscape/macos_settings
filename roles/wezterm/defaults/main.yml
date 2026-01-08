@@ -9,8 +9,8 @@ role_vars:
   symlinks:
     - src: "wezterm/wezterm.lua"
       dest: ".config/wezterm/wezterm.lua"
-    - src: "wezterm-conf-d/50-wezterm.zsh"
-      dest: ".config/zsh/conf.d/50-wezterm.zsh"
+    - src: "wezterm-conf-d/51-wezterm.zsh"
+      dest: ".config/zsh/conf.d/51-wezterm.zsh"
 
   # Directories that must exist before linking
   config_dirs:

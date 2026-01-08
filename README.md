@@ -152,6 +152,7 @@ roles:
   - aws
   - docker
   - runtimes
+  - sdkman
   - nvim
   - wezterm
   - tmux
@@ -166,15 +167,15 @@ roles:
 Zsh configuration files are split and managed in `~/.config/zsh/conf.d/`. They are loaded in alphabetical order.
 We use a **numbering prefix** to ensure dependencies are loaded in the correct order.
 
-| Prefix    | Category         | Description                                  | Examples                            |
-| --------- | ---------------- | -------------------------------------------- | ----------------------------------- |
-| **00-09** | **Bootstrap**    | Initialization required before anything else | `00-p10k.zsh` (Instant Prompt)      |
-| **10-19** | **Zsh Core**     | Basic shell behavior                         | `10-basics.zsh` (History, Bindkeys) |
-| **20-29** | **Environment**  | Runtimes and PATH setup                      | `20-runtimes.zsh` (Node, Java, Go)  |
-| **30-49** | **CLI Tools**    | Common tools configurations                  | `30-tools.zsh`, `31-fzf.zsh`        |
-| **50-79** | **Apps (Roles)** | App-specific aliases and integration         | `50-aws.zsh`, `51-nvim.zsh`         |
-| **80-89** | **Visuals**      | Syntax highlighting and theming              | `80-highlighting.zsh`               |
-| **90-99** | **Local**        | Secrets and local overrides                  | `99-local_secrets.zsh`              |
+| Prefix    | Category         | Description                                  | Examples                                  |
+| --------- | ---------------- | -------------------------------------------- | ----------------------------------------- |
+| **00-09** | **Bootstrap**    | Initialization required before anything else | `00-p10k.zsh` (Instant Prompt)            |
+| **10-19** | **Zsh Core**     | Basic shell behavior                         | `10-basics.zsh` (History, Bindkeys)       |
+| **20-29** | **Environment**  | Runtimes and PATH setup                      | `20-runtimes.zsh`, `21-sdkman.zsh`        |
+| **30-49** | **CLI Tools**    | Common tools configurations                  | `30-tools.zsh`, `31-fzf.zsh`              |
+| **50-79** | **Apps (Roles)** | App-specific aliases and integration         | `50-aws.zsh`, `51-nvim.zsh`               |
+| **80-89** | **Visuals**      | Syntax highlighting and theming              | `80-highlighting.zsh`                     |
+| **90-99** | **Local**        | Secrets and local overrides                  | `99-local_secrets.zsh`                    |
 
 ### 📜 Managed Zsh Files by Role
 
@@ -183,13 +184,14 @@ We use a **numbering prefix** to ensure dependencies are loaded in the correct o
 | zsh       | 00      | `00-p10k.zsh`                 | Powerlevel10k configuration                      |
 | common    | 10      | `10-basics.zsh`               | Basic shell settings (history, bindkeys)         |
 | runtimes  | 20      | `20-runtimes.zsh`             | Runtime environments (Node, Java, etc.)          |
+| sdkman    | 21      | `21-sdkman.zsh`               | SDKMAN initialization (Java, Maven, Gradle)      |
 | common    | 30      | `30-tools.zsh`                | Common tools configuration                       |
 | common    | 31      | `31-fzf.zsh`                  | FZF configuration                                |
 | aws       | 50      | `50-aws.zsh`                  | AWS CLI completion & settings                    |
-| wezterm   | 50      | `50-wezterm.zsh`              | WezTerm integration                              |
-| nvim      | 51      | `51-nvim.zsh`                 | Neovim aliases and integration                   |
-| tmux      | 52      | `52-tmux.zsh`                 | Tmux integration                                 |
-| aerospace | 53      | `53-aerospace.zsh`            | Aerospace aliases and integration                |
+| wezterm   | 51      | `51-wezterm.zsh`              | WezTerm integration                              |
+| nvim      | 52      | `52-nvim.zsh`                 | Neovim aliases and integration                   |
+| tmux      | 53      | `53-tmux.zsh`                 | Tmux integration                                 |
+| aerospace | 54      | `54-aerospace.zsh`            | Aerospace aliases and integration                |
 | common    | 80      | `80-highlighting.zsh`         | Syntax highlighting                              |
 
 ## 🔧 User-Specific Configuration
@@ -246,6 +248,7 @@ The `~/.aws/config` file is managed by the Ansible role (`roles/aws/files/config
     ├── aws/              # AWS CLI config
     ├── docker/           # Docker Cask
     ├── runtimes/         # Language Runtimes (Python, Node, Java)
+    ├── sdkman/           # SDKMAN SDK manager (Java, Maven, Gradle)
     ├── nvim/             # Neovim setup
     ├── wezterm/          # WezTerm setup
     ├── tmux/             # Tmux configuration

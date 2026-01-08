@@ -8,8 +8,8 @@ role_vars:
   symlinks:
     - src: "aerospace/aerospace.toml"
       dest: ".config/aerospace/aerospace.toml"
-    - src: "aerospace-conf-d/53-aerospace.zsh"
-      dest: ".config/zsh/conf.d/53-aerospace.zsh"
+    - src: "aerospace-conf-d/54-aerospace.zsh"
+      dest: ".config/zsh/conf.d/54-aerospace.zsh"
 
   # Ensure directories exist
   config_dirs:

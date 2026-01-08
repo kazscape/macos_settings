@@ -13,8 +13,8 @@ role_vars:
   symlinks:
     - src: "nvim"
       dest: ".config/nvim"
-    - src: "nvim-conf-d/51-nvim.zsh"
-      dest: ".config/zsh/conf.d/51-nvim.zsh"
+    - src: "nvim-conf-d/52-nvim.zsh"
+      dest: ".config/zsh/conf.d/52-nvim.zsh"
 
   # List of directories to be created before symlinking
   config_dirs:

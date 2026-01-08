@@ -8,8 +8,8 @@ role_vars:
   symlinks:
     - src: "tmux/tmux.conf"
       dest: ".config/tmux/tmux.conf"
-    - src: "tmux-conf-d/52-tmux.zsh"
-      dest: ".config/zsh/conf.d/52-tmux.zsh"
+    - src: "tmux-conf-d/53-tmux.zsh"
+      dest: ".config/zsh/conf.d/53-tmux.zsh"
 
   # Directories that must exist before linking
   config_dirs:

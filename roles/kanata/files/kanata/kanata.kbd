@@ -68,20 +68,20 @@
   )
 
   ;; Left hand home row mods (GACS)
-  a (tap-hold-release-keys $tap-time $hold-time (multi a @tap) lmet $left-hand-keys)   ;; A: tap=a, hold=GUI/Cmd
+  a (tap-hold-release-keys $tap-time $hold-time (multi a @tap) lctl $left-hand-keys)   ;; A: tap=a, hold=Ctrl
   s (tap-hold-release-keys $tap-time $hold-time (multi s @tap) lalt $left-hand-keys)   ;; S: tap=s, hold=Alt
-  d (tap-hold-release-keys $tap-time $hold-time (multi d @tap) lctl $left-hand-keys)   ;; D: tap=d, hold=Ctrl
+  d (tap-hold-release-keys $tap-time $hold-time (multi d @tap) lmet $left-hand-keys)   ;; D: tap=d, hold=GUI/Cmd
   f (tap-hold-release-keys $tap-time $hold-time (multi f @tap) lsft $left-hand-keys)   ;; F: tap=f, hold=Shift
   
   ;; Right hand home row mods (GACS mirrored)
   j (tap-hold-release-keys $tap-time $hold-time (multi j @tap) rsft $right-hand-keys)  ;; J: tap=j, hold=Shift
-  k (tap-hold-release-keys $tap-time $hold-time (multi k @tap) rctl $right-hand-keys)  ;; K: tap=k, hold=Ctrl
+  k (tap-hold-release-keys $tap-time $hold-time (multi k @tap) rmet $right-hand-keys)  ;; K: tap=k, hold=GUI/Cmd
   l (tap-hold-release-keys $tap-time $hold-time (multi l @tap) ralt $right-hand-keys)  ;; L: tap=l, hold=Alt
-  ; (tap-hold-release-keys $tap-time $hold-time (multi ; @tap) rmet $right-hand-keys)  ;; ;: tap=;, hold=GUI/Cmd
+  ; (tap-hold-release-keys $tap-time $hold-time (multi ; @tap) rctl $right-hand-keys)  ;; ;: tap=;, hold=Ctrl
 
   hyper (layer-while-held hyper)
-  funct (layer-while-held function)
-  ;; funct (tap-dance $double-tap-time (lsft (layer-while-held function)))   ;; タップor長押し→Left shift, 2回タップ+長押し→Functionレイヤー
+  ;; funct (layer-while-held function)
+  funct (tap-dance $double-tap-time (lsft (layer-while-held function)))   ;; タップor長押し→Left shift, 2回タップ+長押し→Functionレイヤー
   
   ;; AltTab用: タップでAlt+Tab、長押しでAltを維持してスイッチャーを表示し続ける
   appsw (tap-hold 200 200 A-tab lalt)
@@ -96,8 +96,8 @@
             _       _       _       _       _       _       _       _       _       _       _       _       _
     _       _       _       _       _       _       _       _       _       _       _       _       _       _
     @hyper  @a      @s      @d      @f      _       _       @j      @k      @l      @;      _       _
-    _       _       _       _       _       _       _       _       _       _       _       _
-    @funct  _       _       @esc-bspc       _                       ret     _
+    @funct  _       _       _       _       _       _       _       _       _       _       _
+    _       @hyper  _       @esc-bspc       _                       ret     _
 )
 
 ;; --- nomods layer ---
@@ -106,8 +106,8 @@
             _       _       _       _       _       _       _       _       _       _       _       _       _
     _       _       _       _       _       _       _       _       _       _       _       _       _       _
     @hyper  a       s       d       f       _       _       j       k       l       ;       _       _
-    _       _       _       _       _       _       _       _       _       _       _       _
-    @funct  _       _       @esc-bspc       _                       ret     _
+    @funct  _       _       _       _       _       _       _       _       _       _       _
+    _       @hyper  _       @esc-bspc       _                       ret     _
 )
 
 (deffakekeys
@@ -120,16 +120,16 @@
             _       _       _       _       _       _       _       _       _       _       _       _       _
     _       _       _       _       _       @appsw  _       _       _       _       _       _       _       _
     @hyper  @a      @s      @d      @f      _       lft     down    up      rght    _       _       _
-    _       _       _       _       _       _       _       _       _       _       _       _
-    @funct  _       _       @esc-bspc       _                       ret     _
+    @funct  _       _       _       _       _       _       _       _       _       _       _
+    _       @hyper  _       @esc-bspc       _                       ret     _
 )
 
 ;; --- Function layer---
 (deflayer function
     _       brdn    brup    mctl    sls     dtn     dnd     prev    pp      next    mute    voldwn  volu
             f1      f2      f3      f4      f5      f6      f7      f8      f9      f10     f11     f12     _
-    _       _       _       _       _       _       _       _       _       _       _       _       _       _
-    @hyper  @a      @s      @d      @f      _       lft     down    up      rght    _       _       _
-    _       _       _       _       _       _       _       _       _       _       _       _
-    @funct  _       _       @esc-bspc       _                       ret     _
+    _       _       _       _       _       _       7       8       9       _       _       _       _       _
+    @hyper  @a      @s      @d      @f      _       4       5       6       _       _       _       _
+    @funct  _       _       _       _       _       1       2       3       0       _       _
+    _       @hyper  _       @esc-bspc       _                       ret     _
 )

@@ -1,0 +1,27 @@
+---
+role_vars:
+  packages:
+    - curl
+    - zip
+    - unzip
+
+  symlinks:
+    - src: "sdkman.zsh"
+      dest: ".config/zsh/conf.d/21-sdkman.zsh"
+
+  config_dirs:
+    - .config/zsh/conf.d
+
+  # SDKs to install via SDKMAN
+  # Note: Java is already managed by homebrew (corretto@21)
+  # Add SDKs as needed, e.g.:
+  # sdks:
+  #   - name: maven
+  #     version: "3.9.6"
+  #   - name: gradle
+  #     version: "8.5"
+  #   - name: kotlin
+  #     version: "1.9.22"
+  #   - name: scala
+  #     version: "3.3.1"
+  sdks: []

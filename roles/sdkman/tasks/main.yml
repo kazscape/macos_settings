@@ -1,0 +1,28 @@
+---
+- import_tasks: ../../common/tasks/standard_role.yml
+
+- name: Check if SDKMAN is installed
+  stat:
+    path: "{{ ansible_facts['user_dir'] }}/.sdkman/bin/sdkman-init.sh"
+  register: sdkman_installed
+
+- name: Install SDKMAN
+  shell: |
+    curl -s "https://get.sdkman.io" | bash
+  args:
+    creates: "{{ ansible_facts['user_dir'] }}/.sdkman/bin/sdkman-init.sh"
+  when: not sdkman_installed.stat.exists
+
+- name: Install SDKs via SDKMAN
+  shell: |
+    source "{{ ansible_facts['user_dir'] }}/.sdkman/bin/sdkman-init.sh"
+    sdk install {{ item.name }} {{ item.version }}
+  args:
+    executable: /bin/bash
+  loop: "{{ role_vars.sdks | default([]) }}"
+  when: role_vars.sdks is defined and role_vars.sdks | length > 0
+  register: sdk_install
+  failed_when: 
+    - sdk_install.rc != 0
+    - "'is already installed' not in sdk_install.stdout"
+  changed_when: "'is already installed' not in sdk_install.stdout"

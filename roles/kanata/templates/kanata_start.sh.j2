@@ -1,24 +1,37 @@
 #!/usr/bin/env bash
 # Kanata start helper script
-# Starts kanata in foreground for testing
+# Starts kanata via LaunchDaemon
 
 set -e
 
 CONFIG_FILE="{{ kanata_config_file }}"
-KANATA_BIN="$(which kanata)"
+LAUNCHD_PLIST="{{ kanata_launchd_plist }}"
 
 echo "Starting Kanata..."
 echo "Config: $CONFIG_FILE"
-echo ""
-echo "⚠️  This will run in foreground. Press Ctrl+C to stop."
-echo "   Test CapsLock key - it should work as Ctrl"
-echo ""
 
 # Check if already running
-if pgrep -f "kanata.*${CONFIG_FILE}" > /dev/null; then
-    echo "❌ Kanata is already running. Stop it first with: kanata-stop"
-    exit 1
+if pgrep -f "kanata" > /dev/null; then
+    echo "⚠️  Kanata is already running"
+    ps aux | grep kanata | grep -v grep
+    exit 0
 fi
 
-# Start kanata with sudo
-sudo "$KANATA_BIN" --cfg "$CONFIG_FILE"
+# Load the LaunchDaemon
+if [ -f "$LAUNCHD_PLIST" ]; then
+    echo "Loading LaunchDaemon..."
+    sudo launchctl load -w "$LAUNCHD_PLIST"
+    sleep 1
+    
+    if pgrep -f "kanata" > /dev/null; then
+        echo "✅ Kanata started via LaunchDaemon"
+        ps aux | grep kanata | grep -v grep
+    else
+        echo "❌ Failed to start Kanata. Check logs:"
+        echo "   tail -f /tmp/kanata.err.log"
+        exit 1
+    fi
+else
+    echo "❌ LaunchDaemon plist not found: $LAUNCHD_PLIST"
+    exit 1
+fi

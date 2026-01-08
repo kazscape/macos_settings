@@ -1,15 +1,23 @@
 #!/usr/bin/env bash
 # Kanata stop helper script
-# Stops all running kanata processes
+# Stops kanata LaunchDaemon and processes
 
 set -e
 
+LAUNCHD_PLIST="{{ kanata_launchd_plist }}"
+
 echo "Stopping Kanata..."
 
-# Stop kanata processes
+# First, unload the LaunchDaemon to prevent auto-restart
+if [ -f "$LAUNCHD_PLIST" ]; then
+    echo "Unloading LaunchDaemon..."
+    sudo launchctl unload "$LAUNCHD_PLIST" 2>/dev/null || true
+fi
+
+# Stop any remaining kanata processes
 if pgrep -f "kanata" > /dev/null; then
     sudo pkill -f "kanata"
-    echo "✅ Kanata stopped"
-else
-    echo "ℹ️  Kanata is not running"
+    sleep 1
 fi
+
+echo "✅ Kanata stopped (LaunchDaemon unloaded)"

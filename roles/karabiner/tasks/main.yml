@@ -19,6 +19,9 @@
       community.general.homebrew_cask:
         name: "{{ karabiner_cask }}"
         state: present
+      become: no
+      environment:
+        HOMEBREW_NO_AUTO_UPDATE: "1"
 
     # 2. Create config directory (Karabiner-Elements creates this automatically on first launch)
     - name: Ensure Karabiner-Elements config directory exists
